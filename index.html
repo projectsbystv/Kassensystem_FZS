@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Four Seasons Café — Bestellung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Caveat:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#241f1a;
+    --charcoal-2:#2e2721;
+    --paper:#f2e7cf;
+    --paper-2:#eaddc0;
+    --rust:#a34430;
+    --rust-dark:#8a3626;
+    --olive:#5c6b3f;
+    --olive-dark:#455030;
+    --gold:#c69a3c;
+    --ink:#3a2a1e;
+    --cream:#f2e7cf;
+    --line:rgba(242,231,207,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 700px at 15% -10%, #34291f 0%, transparent 60%),
+      radial-gradient(900px 600px at 110% 10%, #2c2419 0%, transparent 55%),
+      var(--charcoal);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding-bottom:110px;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--gold);color:var(--ink);}
+
+  /* ---------- Header ---------- */
+  header.top{
+    padding:28px 20px 14px;
+    text-align:center;
+    max-width:720px;
+    margin:0 auto;
+  }
+  .logo-mark{width:46px;height:46px;margin:0 auto 10px;display:block;}
+  header.top h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(28px,6vw,38px);
+    margin:0;
+    letter-spacing:0.2px;
+    color:var(--cream);
+  }
+  header.top .sub{
+    font-family:'Caveat', cursive;
+    font-size:22px;
+    color:var(--gold);
+    margin-top:2px;
+  }
+
+  /* ---------- Guest info card ---------- */
+  .guest-card{
+    max-width:640px;
+    margin:18px auto 6px;
+    padding:16px;
+    background:var(--charcoal-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+  }
+  .guest-row{display:flex;gap:12px;flex-wrap:wrap;}
+  .field{flex:1;min-width:140px;}
+  .field label{
+    display:block;
+    font-size:12.5px;
+    color:#c9bda6;
+    margin-bottom:5px;
+    font-weight:500;
+  }
+  .field input, .field select{
+    width:100%;
+    padding:10px 12px;
+    background:var(--charcoal);
+    border:1px solid var(--line);
+    border-radius:7px;
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+  }
+  .field input::placeholder{color:#8d7f6b;}
+  .field input:focus, .field select:focus{outline:2px solid var(--gold);outline-offset:1px;}
+
+  /* ---------- Top category nav ---------- */
+  nav.catnav{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(36,31,26,0.96);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:10px 14px;
+    margin-top:18px;
+  }
+  .catnav-inner{
+    max-width:640px;
+    margin:0 auto;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    padding-bottom:2px;
+  }
+  .catnav-inner::-webkit-scrollbar{display:none;}
+  .cat-pill{
+    flex:none;
+    padding:7px 14px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:#d9cbb0;
+    font-size:13.5px;
+    font-weight:500;
+    cursor:pointer;
+    white-space:nowrap;
+    font-family:'Work Sans', sans-serif;
+  }
+  .cat-pill.active{background:var(--rust);border-color:var(--rust);color:#fff;}
+
+  /* ---------- Sub-tabs (Desserts / Getränke) ---------- */
+  .subtabs{
+    display:flex;
+    gap:8px;
+    margin:0 4px 18px;
+    flex-wrap:wrap;
+  }
+  .subtab-pill{
+    padding:7px 15px;
+    border-radius:8px;
+    border:1px solid rgba(92,107,63,0.55);
+    background:transparent;
+    color:#cdbfa2;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+  }
+  .subtab-pill.active{background:var(--olive);border-color:var(--olive);color:#fff;}
+
+  .subgroup-heading{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:0.2px;
+    color:var(--gold);
+    margin:4px 4px 10px;
+    padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .subgroup-heading:first-child{border-top:none;padding-top:0;}
+
+  /* ---------- Sections ---------- */
+  main{max-width:640px;margin:0 auto;padding:6px 16px 20px;}
+  section.cat{margin-top:34px;scroll-margin-top:64px;}
+  section.cat h2{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:34px;
+    color:var(--gold);
+    margin:0 0 2px 4px;
+    line-height:1;
+  }
+  section.cat .cat-hr{
+    height:1px;
+    background:linear-gradient(90deg, var(--olive), transparent);
+    margin:6px 0 16px;
+  }
+
+  /* ---------- Item card ---------- */
+  .item{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:4px 12px 4px 12px;
+    padding:14px 16px 12px;
+    margin-bottom:12px;
+    box-shadow:0 3px 0 rgba(0,0,0,0.18);
+  }
+  .item:nth-child(odd){transform:rotate(-0.35deg);}
+  .item:nth-child(even){transform:rotate(0.3deg);}
+  .item:focus-within, .item:hover{transform:rotate(0deg);}
+  .item-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+  .item-head h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:17.5px;
+    margin:0;
+    color:var(--ink);
+  }
+  .item-price{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:16.5px;
+    color:var(--rust-dark);
+    white-space:nowrap;
+  }
+  .item-desc{font-size:13.3px;color:#5a4a38;margin:5px 0 0;line-height:1.4;}
+
+  .opt-row{margin-top:10px;}
+  .opt-label{font-size:12px;font-weight:600;color:#6b5a3f;margin-bottom:5px;}
+  select.opt-select{
+    width:100%;
+    padding:7px 9px;
+    border-radius:6px;
+    border:1px solid #d8c9a4;
+    background:#fbf5e6;
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:13.5px;
+  }
+  .extras-list{display:flex;flex-direction:column;gap:6px;}
+  .extra-chip{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:6px 8px;border-radius:6px;background:#fbf5e6;
+    border:1px solid #e2d3ac;font-size:13px;cursor:pointer;
+  }
+  .extra-chip input{margin:0;accent-color:var(--rust);}
+  .extra-chip .ex-price{color:#8a6a2f;font-weight:600;white-space:nowrap;}
+
+  .variant-list{display:flex;flex-direction:column;gap:6px;}
+  .variant-chip{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:7px 9px;border-radius:6px;background:#fbf5e6;
+    border:1px solid #e2d3ac;font-size:13.3px;cursor:pointer;
+  }
+  .variant-chip input{margin:0;accent-color:var(--rust);}
+  .variant-chip .v-price{color:#8a6a2f;font-weight:600;white-space:nowrap;}
+
+  .qty-row{margin-top:12px;display:flex;align-items:center;justify-content:space-between;}
+  .qty-ctrl{display:flex;align-items:center;border:1px solid #d8c9a4;border-radius:7px;overflow:hidden;}
+  .qty-btn{width:32px;height:32px;background:#fbf5e6;border:none;color:var(--ink);font-size:17px;cursor:pointer;line-height:1;}
+  .qty-btn:active{background:#efe2bf;}
+  .qty-val{min-width:28px;text-align:center;font-weight:600;font-size:14.5px;}
+  .line-total{font-family:'Fraunces', serif;font-weight:600;font-size:15px;color:var(--rust-dark);min-height:19px;}
+
+  /* ---------- Cart bar ---------- */
+  .cartbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:30;
+    background:var(--charcoal-2);border-top:1px solid var(--line);
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  }
+  .cartbar-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:12px;}
+  .cartbar-info{flex:1;min-width:0;}
+  .cartbar-info .cnt{font-size:12px;color:#c9bda6;}
+  .cartbar-info .tot{font-family:'Fraunces', serif;font-weight:700;font-size:22px;color:var(--gold);}
+  .cartbar-btn{
+    background:var(--rust);color:#fff;border:none;padding:12px 20px;
+    border-radius:8px;font-weight:600;font-size:14.5px;cursor:pointer;
+    font-family:'Work Sans', sans-serif;white-space:nowrap;
+  }
+  .cartbar-btn:disabled{background:#5c5147;cursor:not-allowed;}
+
+  /* ---------- Summary overlay ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(20,17,14,0.72);z-index:40;display:none;align-items:flex-end;justify-content:center;}
+  .overlay.show{display:flex;}
+  .sheet{
+    width:100%;max-width:640px;max-height:86vh;overflow-y:auto;
+    background:var(--paper);color:var(--ink);
+    border-radius:16px 16px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));
+  }
+  .sheet h2{font-family:'Fraunces', serif;margin:0 0 4px;font-size:24px;}
+  .sheet .meta{font-size:14px;color:#6b5a3f;margin-bottom:14px;}
+  .sheet .meta b{color:var(--ink);}
+  .sum-line{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed #d8c9a4;font-size:14px;}
+  .sum-line .nm{flex:1;}
+  .sum-line .nm .opt{display:block;font-size:11.5px;color:#8a7a63;margin-top:2px;}
+  .sum-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;padding-top:12px;border-top:2px solid var(--ink);}
+  .sum-total .lbl{font-size:15px;font-weight:600;}
+  .sum-total .val{font-family:'Fraunces', serif;font-size:28px;font-weight:700;color:var(--rust-dark);}
+  .sheet-actions{display:flex;gap:10px;margin-top:18px;}
+  .btn-secondary{flex:1;padding:12px;border-radius:8px;border:1px solid #b6a679;background:transparent;color:var(--ink);font-weight:600;cursor:pointer;font-family:'Work Sans', sans-serif;}
+  .btn-primary{flex:1;padding:12px;border-radius:8px;border:none;background:var(--olive);color:#fff;font-weight:600;cursor:pointer;font-family:'Work Sans', sans-serif;}
+
+  /* ---------- Footer / allergens ---------- */
+  footer{max-width:640px;margin:36px auto 0;padding:0 20px;}
+  details.allergens{border-top:1px solid var(--line);padding-top:14px;}
+  details.allergens summary{cursor:pointer;font-size:13.5px;color:#c9bda6;font-weight:500;}
+  details.allergens .al-body{font-size:11.8px;color:#a4977f;line-height:1.6;margin-top:10px;}
+
+  @media (min-width:720px){ .item-head h3{font-size:18.5px;} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <svg class="logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M32 58V34" stroke="#c69a3c" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M32 40c-8 0-14-6-14-6s2 8 10 10" stroke="#c69a3c" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <path d="M32 34c8 0 14-7 14-7s-2 9-11 11" stroke="#c69a3c" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <circle cx="22" cy="18" r="3" fill="#a34430"/>
+    <circle cx="32" cy="12" r="3.4" fill="#c69a3c"/>
+    <circle cx="42" cy="18" r="3" fill="#5c6b3f"/>
+    <circle cx="27" cy="24" r="2.6" fill="#5c6b3f"/>
+    <circle cx="37" cy="24" r="2.6" fill="#a34430"/>
+  </svg>
+  <h1>Four Seasons Café</h1>
+  <div class="sub">Bestellung aufnehmen</div>
+</header>
+
+<div class="guest-card">
+  <div class="guest-row">
+    <div class="field">
+      <label for="guestName">Name des Gastes</label>
+      <input id="guestName" type="text" placeholder="z. B. Herr Meier" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="tableSel">Tisch</label>
+      <select id="tableSel"></select>
+    </div>
+  </div>
+</div>
+
+<nav class="catnav">
+  <div class="catnav-inner" id="catnavInner"></div>
+</nav>
+
+<main id="menuRoot"></main>
+
+<div class="cartbar">
+  <div class="cartbar-inner">
+    <div class="cartbar-info">
+      <div class="cnt" id="cartCount">Noch keine Auswahl</div>
+      <div class="tot" id="cartTotal">0,00 €</div>
+    </div>
+    <button class="cartbar-btn" id="showSummaryBtn" disabled>Bestellung anzeigen</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <h2>Bestellübersicht</h2>
+    <div class="meta"><b id="sumName">—</b> · Tisch <b id="sumTable">—</b></div>
+    <div id="sumLines"></div>
+    <div class="sum-total">
+      <span class="lbl">Gesamt</span>
+      <span class="val" id="sumTotalVal">0,00 €</span>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn-secondary" id="closeSummaryBtn">Weiter bestellen</button>
+      <button class="btn-primary" id="clearAllBtn">Bestellung löschen</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <details class="allergens">
+    <summary>Allergene &amp; Zusatzstoffe</summary>
+    <div class="al-body">
+      A = glutenhaltiges Getreide (Weizen¹, Roggen², Gerste³, Hafer⁴, Dinkel⁵, Kamut⁶, Hybridstämme⁷) · B = Krebstiere · C = Eier · D = Fisch · E = Erdnüsse · F = Soja · G = Milch und Milchprodukte (inkl. Laktose) · H = Schalenfrüchte (Mandel¹, Haselnuss², Walnuss³, Cashew⁴, Pecannuss⁵, Paranuss⁶, Pistazie⁷, Macadamianuss⁸, Queenslandnuss⁹) · I = Sellerie · J = Senf · K = Sesamsamen · L = Schwefeldioxid/Sulfite &gt; 10&nbsp;mg/kg · M = Lupinen · N = Weichtiere
+      <br><br>
+      Zusatzstoffe: 1 = mit Konservierungsstoff · 2 = mit Geschmacksverstärker · 3 = mit Antioxidationsmittel · 4 = mit Farbstoff · 5 = mit Phosphat · 6 = mit Süßungsmittel · 7 = koffeinhaltig · 8 = chininhaltig · 9 = geschwärzt · 10 = enthält Phenylalaninquelle · 11 = enthält Sulfite
+    </div>
+  </details>
+</footer>
+
+<script>
+/* ============ DATA ============ */
+
+const CREPES_ITEMS = [
+  { id:'c1', name:'Crêpe (Basis)', price:5.50,
+    desc:'Inklusive Nutella, Lotussauce oder Erdbeersauce.',
+    flavorLabel:'Sauce', flavorOptions:['Nutella','Lotussauce','Erdbeersauce'],
+    extras:[
+      {key:'banane',label:'Banane',price:2.00},
+      {key:'erdbeere',label:'Erdbeere (saisonal)',price:2.00},
+      {key:'kinderriegel',label:'Kinder Riegel',price:2.00},
+      {key:'kinderbueno',label:'Kinder Bueno',price:2.00},
+      {key:'maxiking',label:'Maxi King',price:2.00},
+      {key:'vanilleeis',label:'Vanille-Eis',price:2.00},
+      {key:'blaubeeren',label:'Blaubeeren',price:3.00},
+      {key:'zimt',label:'Zimt & Apfelmus',price:2.50},
+    ]},
+];
+
+const CHEESECAKE_ITEMS = [
+  { id:'ch1', name:'Cheesecake (Stück)', price:5.50, flavorLabel:'Sorte', flavorOptions:[
+    'Raffaello','Karamell-Lotus','Kinder Maxi King','Kinder Bueno','Oreo','Blueberry','Raspberry','Strawberry','Pistazien-Safran-Nuss'
+  ]},
+];
+
+const EIS_ITEMS = [
+  {id:'e1',name:'Bastani',price:7.90},
+  {id:'e2',name:'Faludeh',price:7.90},
+  {id:'e3',name:'Makhlut',price:9.90},
+  {id:'e4',name:'Shirjakh',price:7.90},
+  {id:'e5',name:'Shirjakh Mix',price:9.90},
+];
+
+const KAFFEE_ITEMS = [
+  {id:'k1',name:'Americano',price:3.20},
+  {id:'k2',name:'Café Latte',price:3.80},
+  {id:'k3',name:'Cappuccino',price:3.90},
+  {id:'k4',name:'Latte Macchiato',price:3.90},
+  {id:'k5',name:'Espresso',price:2.20},
+  {id:'k6',name:'Doppelter Espresso',price:3.50},
+  {id:'k7',name:'Eiskaffee',price:6.90,desc:'Mit Vanillecreme.'},
+  {id:'k8',name:'Match Latte',price:5.50},
+  {id:'k9',name:'Coold Matcha',price:7.50,flavorLabel:'Sorte',flavorOptions:['Erdbeere','Himbeere','Mango','Maracuja','Peach']},
+];
+
+const TEE_ITEMS = [
+  {id:'t1',name:'Grüntee',price:2.90},
+  {id:'t2',name:'Schwarztee',price:2.90},
+  {id:'t3',name:'Früchtetee',price:2.90},
+  {id:'t4',name:'Kamillentee',price:2.90},
+  {id:'t5',name:'Frischer Minztee',price:3.50},
+  {id:'t6',name:'Ingwer Minze',price:3.90},
+  {id:'t7',name:'Mixtee',price:4.50,desc:'Ingwer, Zitrone, Minze und Honig.'},
+  {id:'t8',name:'Teekanne (für 2 Personen)',
+    variants:[
+      {key:'mixtee',label:'Frischer Mixtee mit Ingwer, Minze, Zitrone & Honig',price:10.90},
+      {key:'gruenschwarz',label:'Grün oder Schwarz',price:8.90},
+      {key:'kardamom',label:'Grün/Schwarz mit Kardamom',price:9.90},
+      {key:'safran',label:'Grün/Schwarz mit Safran',price:9.90},
+    ]},
+];
+
+const SOFTDRINKS_ITEMS = [
+  {id:'sd1',name:'Fritz Kola',price:3.60,desc:'0,33 l'},
+  {id:'sd2',name:'Fritz ohne Zucker',price:3.60,desc:'0,33 l'},
+  {id:'sd3',name:'Fritz Limo',price:3.60,desc:'0,33 l',flavorLabel:'Sorte',flavorOptions:['Apfel','Kirsch','Holunder','Orange','Honigmelone']},
+  {id:'sd4',name:'Misch Masch',price:3.60,desc:'0,33 l — Kola, Orange.'},
+  {id:'sd5',name:'Wasser still',price:3.20,desc:'0,33 l'},
+  {id:'sd6',name:'Wasser mit Sprudel',price:3.20,desc:'0,33 l'},
+  {id:'sd7',name:'Apfelschorle',price:4.90,desc:'0,4 l'},
+  {id:'sd8',name:'Rhabarberschorle',price:4.90,desc:'0,4 l'},
+  {id:'sd9',name:'Maracujaschorle',price:4.90,desc:'0,4 l'},
+  {id:'sd10',name:'Kirschschorle',price:4.90,desc:'0,4 l'},
+  {id:'sd11',name:'KiBa',price:4.90,desc:'0,4 l'},
+  {id:'sd12',name:'Ice Tea',price:3.90,desc:'0,33 l',flavorLabel:'Sorte',flavorOptions:['Peach','Lemon','Pomegranate']},
+];
+
+const SAEFTE_ITEMS = [
+  {id:'sa1',name:'Ayran Dogh',price:4.50,desc:'Hausgemachte Dogh: Ayran, Joghurt, Wasser, Minze, Sprudelwasser — 0,4 l.'},
+  {id:'sa2',name:'Multivitamin',price:7.90,desc:'Apfel, Orange, Karotte.'},
+  {id:'sa3',name:'Apfel',price:6.90},
+  {id:'sa4',name:'Orange',price:6.90},
+  {id:'sa5',name:'Karotte',price:6.90},
+  {id:'sa6',name:'Wassermelone',price:7.90,desc:'Saisonal.'},
+  {id:'sa7',name:'Honigmelone',price:7.90,desc:'Saisonal.'},
+];
+
+const SHAKES_ITEMS = [
+  {id:'m1',name:'Maxi King',price:7.90},
+  {id:'m2',name:'Kinder Bueno',price:7.90},
+  {id:'m3',name:'Oreo',price:7.90},
+  {id:'m4',name:'Rafaello',price:7.90},
+  {id:'m5',name:'Erdbeere',price:7.90},
+  {id:'m6',name:'Banane',price:7.90},
+  {id:'m7',name:'Pistazien',price:8.90},
+  {id:'m8',name:'Lotus',price:7.90},
+];
+
+const ORIENT_ITEMS = [
+  {id:'o1',name:'Majoon',price:9.90,desc:'Datteln, Nussmischung, Banane, Safraneis-Milch.'},
+  {id:'o2',name:'Ab Talebi',price:7.90,desc:'Honigmelonensaft.',extras:[{key:'safraneis',label:'Mit Safraneis',price:0.60}]},
+  {id:'o3',name:'Ab Havij',price:6.90,desc:'Karottensaft.',extras:[{key:'safraneis',label:'Mit Safraneis',price:2.00}]},
+  {id:'o4',name:'Shirmoos',price:7.90,desc:'Bananenshake mit Safraneis.'},
+  {id:'o5',name:'Shir Peste',price:8.90,desc:'Vanilleeis, Safraneis gemischt mit Milch und Pistazien.'},
+];
+
+const SMOOTHIE_ITEMS = [
+  {id:'sm1',name:'Smoothie',price:7.90,desc:'0,4 l',flavorLabel:'Sorte',flavorOptions:[
+    'Tropic Berry (Ananas & Himbeere)','Mango Tango (Banane, Erdbeere & Mango)','Blue Monkey (Banane & Blaubeeren)','Kiwi Kick (Banane, Kiwi & Apfel)','Red Power (Karotte, Rote Bete & Apfel)'
+  ]},
+];
+
+const COCKTAIL_ITEMS = [
+  {id:'cc1',name:'Solero Magic',price:7.90,desc:'0,4 l — Exotischer Maracujasaft trifft auf cremiges Vanilleeis, verfeinert mit Sahne.'},
+  {id:'cc2',name:'Sanfter Engel',price:7.90,desc:'0,4 l — Fruchtiger Orangensaft trifft auf cremiges Vanilleeis, gekrönt mit Sahne.'},
+  {id:'cc3',name:'KiBa',price:7.90,desc:'0,4 l — Bananensaft kombiniert mit Kirsch-Eiscreme, getoppt mit Sahne.'},
+];
+
+const PASTA_EXTRA = [{key:'ueberbacken',label:'Mit Käse überbacken',price:2.50}];
+
+const MENU = [
+  { id:'salate', label:'Salat Bowls', kind:'list', items:[
+    { id:'s1', name:'Frische Salat-Bowl', price:10.90,
+      desc:'Eisbergsalat, Rucola, Mais, Oliven, Cherrytomaten, Gurken, rote Zwiebeln, Avocado, Möhren, Rote Bete und Paprika – serviert mit ofenfrischem Brot.',
+      flavorLabel:'Dressing', flavorOptions:['American','Balsamico','Caesar'],
+      extras:[
+        {key:'schafskaese',label:'Schafskäse',price:2.90},
+        {key:'haehnchen',label:'Gebratenes Hähnchenbrustfilet',price:4.50},
+        {key:'thunfisch',label:'Thunfisch',price:4.50},
+        {key:'scampi',label:'Gebratene Scampi',price:5.90},
+      ]}
+  ]},
+  { id:'auflauf', label:'Kartoffelauflauf', kind:'list', items:[
+    { id:'a1', name:'Hausgemachter Kartoffelauflauf',
+      desc:'Mit Paprika, Champignons, Zwiebeln, Sahnesoße und Gouda-Käse überbacken.',
+      variants:[
+        {key:'standard',label:'Standard',price:11.50},
+        {key:'haehnchen',label:'Mit Hähnchen',price:12.90},
+        {key:'haehnchen_brokkoli',label:'Mit Hähnchen & Brokkoli',price:13.50},
+        {key:'garnelen',label:'Mit Garnelen, Brokkoli & Cherrytomaten',price:15.90},
+      ]}
+  ]},
+  { id:'pizza', label:'Pizza', kind:'list', items:[
+    {id:'p1',name:'Margarita',price:9.90,desc:'Tomatensoße, Käse.'},
+    {id:'p2',name:'Funghi',price:10.90,desc:'Tomatensoße, Käse, Champignons.'},
+    {id:'p3',name:'Veggie',price:11.90,desc:'Tomatensoße, Käse, Saison-Gemüse.'},
+    {id:'p4',name:'Tuna',price:12.50,desc:'Tomatensoße, Käse, Thunfisch, rote Zwiebeln.'},
+    {id:'p5',name:'Scampi',price:15.90,desc:'Tomatensoße, Käse, Paprika, Mais, Scampi, Brokkoli.'},
+    {id:'p6',name:'Salami',price:12.90,desc:'Tomatensoße, Käse, Salami.'},
+    {id:'p7',name:'Hähnchen',price:12.90,desc:'Tomatensoße, Käse, Tomate, Brokkoli, Hähnchenbrustfilet.'},
+    {id:'p8',name:'Djujeh',price:15.90,desc:'Tomatensoße, Käse, Paprika, rote Zwiebeln, Hähnchenbrustfilet – auf persische Art in Safransauce eingelegt.'},
+    {id:'p9',name:'Sucuk',price:12.90,desc:'Tomatensoße, Käse, Sucuk, Oliven, Jalapeños.'},
+    {id:'p10',name:'Mozzarella',price:12.90,desc:'Tomatensoße, Käse, Mozzarella, Cherrytomaten.'},
+    {id:'p11',name:'4 Seasons',price:14.90,desc:'Tomatensoße, Käse, Champignons, Mozzarella, Saison-Gemüse, Salami, Hähnchenbrustfilet, Tomate, Brokkoli.'},
+    {id:'p12',name:'Spezial',price:13.90,desc:'Tomaten-Joghurt-Sauce, Salami, Hähnchenbrustfilet, Mais, Käse, Jalapeños.'},
+    {id:'p13',name:'Pizza Mexico',price:14.90,desc:'Crispy Chicken, Mais, Tomatensoße, Jalapeños, Käse.'},
+    {id:'p14',name:'Pizza Watani',price:14.50,desc:'Mit Zwiebeln, Knoblauch geröstet, gebratenes Rinderhackfleisch, verfeinert mit frischen Zwiebeln, Tomaten und Hähnchenbrustfilet.'},
+  ]},
+  { id:'pasta', label:'Pasta', kind:'list', items:[
+    {id:'pa1',name:'Da Vinci',price:11.50,desc:'Penne, Bolognese, Peperoni, Knoblauch, Sahnesauce.'},
+    {id:'pa2',name:'Scampi',price:15.50,desc:'Penne, Paprika, Knoblauch, Brokkoli, Oliven, Scampi, Sahnesoße.'},
+    {id:'pa3',name:'Spezial',price:12.50,desc:'Penne, Paprika, Knoblauch, Brokkoli, Zwiebeln, Champignons, Hähnchenbrustfilet, Sahne-Tomatensoße.'},
+    {id:'pa4',name:'Veggi',price:12.90,desc:'Penne, Brokkoli, Paprika, Champignons, Sahne-Tomatensoße.'},
+    {id:'pa5',name:'Spicy Chicken',price:12.90,desc:'Spaghetti, Chilli, Hähnchenbrustfilet, Paprika, Knoblauch, Sahne-Tomatensoße.'},
+    {id:'pa6',name:'Hähnchen',price:12.50,desc:'Penne, Hähnchen, Sahne-Tomatensoße.'},
+    {id:'pa7',name:'Mexicana',price:12.50,desc:'Spaghetti, gebratenes Hackfleisch mit Tomatensoße, Mais und Jalapeños.'},
+    {id:'pa8',name:'Funghi',price:12.50,desc:'Spaghetti mit Champignons, Mais, Knoblauch und Sahne-Goudacreme-Soße.'},
+    {id:'pa9',name:'Mantu',price:14.90,desc:'Gedämpfte Teigtaschen gefüllt mit Hackfleisch, Knoblauch, Joghurt, Tomaten-Hackfleischsoße.'},
+    {id:'pa10',name:'Ashak',price:13.90,desc:'Gedämpfte Maultaschen gefüllt mit Frühlingslauch, Knoblauch, Tomaten-Joghurtsauce (vegetarisch).'},
+  ].map(it=>({...it, extras:PASTA_EXTRA}))},
+  { id:'desserts', label:'Desserts', kind:'tabs', tabs:[
+    { id:'d-crepes', label:'Crêpes', items:CREPES_ITEMS },
+    { id:'d-cheesecake', label:'Cheesecake', items:CHEESECAKE_ITEMS },
+    { id:'d-eis', label:'Eis', items:EIS_ITEMS },
+  ]},
+  { id:'getraenke', label:'Getränke', kind:'tabs', tabs:[
+    { id:'g-heiss', label:'Heiß', groups:[
+        {label:'Kaffee', items:KAFFEE_ITEMS},
+        {label:'Tee', items:TEE_ITEMS},
+    ]},
+    { id:'g-kalt', label:'Kalt', groups:[
+        {label:'Softdrinks', items:SOFTDRINKS_ITEMS},
+        {label:'Säfte & Ayran', items:SAEFTE_ITEMS},
+        {label:'Milchshakes', items:SHAKES_ITEMS},
+        {label:'Orient Shakes', items:ORIENT_ITEMS},
+        {label:'Smoothies', items:SMOOTHIE_ITEMS},
+        {label:'Crème & Fruits', items:COCKTAIL_ITEMS},
+    ]},
+  ]},
+];
+
+/* ============ STATE ============ */
+const state = {};
+function getState(item){
+  if(!state[item.id]){
+    state[item.id] = {
+      qty:0,
+      extras:{},
+      variant: item.variants ? item.variants[0].key : null,
+      flavor: item.flavorOptions ? item.flavorOptions[0] : null,
+    };
+  }
+  return state[item.id];
+}
+function fmt(n){ return n.toFixed(2).replace('.', ',') + ' €'; }
+function unitPrice(item, st){
+  let base = item.variants ? item.variants.find(v=>v.key===st.variant).price : item.price;
+  let extrasSum = 0;
+  if(item.extras) item.extras.forEach(e=>{ if(st.extras[e.key]) extrasSum += e.price; });
+  return base + extrasSum;
+}
+
+/* traverse every item in the whole menu, regardless of nesting */
+function forEachItem(cb){
+  MENU.forEach(entry=>{
+    if(entry.kind==='list'){
+      entry.items.forEach(cb);
+    } else if(entry.kind==='tabs'){
+      entry.tabs.forEach(tab=>{
+        if(tab.items) tab.items.forEach(cb);
+        if(tab.groups) tab.groups.forEach(g=>g.items.forEach(cb));
+      });
+    }
+  });
+}
+
+const allItemsById = {};
+forEachItem(item=>{ allItemsById[item.id] = item; getState(item); });
+
+/* ============ RENDER ITEM CARD ============ */
+function renderItemCard(item){
+  const st = getState(item);
+  const card = document.createElement('div');
+  card.className = 'item';
+  card.id = 'item-'+item.id;
+
+  const head = document.createElement('div');
+  head.className = 'item-head';
+  const h3 = document.createElement('h3');
+  h3.textContent = item.name;
+  head.appendChild(h3);
+  const priceEl = document.createElement('div');
+  priceEl.className = 'item-price';
+  priceEl.id = 'price-'+item.id;
+  head.appendChild(priceEl);
+  card.appendChild(head);
+
+  if(item.desc){
+    const d = document.createElement('p');
+    d.className = 'item-desc';
+    d.textContent = item.desc;
+    card.appendChild(d);
+  }
+
+  if(item.variants){
+    const row = document.createElement('div');
+    row.className = 'opt-row variant-list';
+    item.variants.forEach(v=>{
+      const lbl = document.createElement('label');
+      lbl.className = 'variant-chip';
+      lbl.innerHTML = `<span><input type="radio" name="variant-${item.id}" value="${v.key}" ${v.key===st.variant?'checked':''}> ${v.label}</span><span class="v-price">${fmt(v.price)}</span>`;
+      lbl.querySelector('input').addEventListener('change', ()=>{
+        st.variant = v.key; refreshItem(item); refreshCart();
+      });
+      row.appendChild(lbl);
+    });
+    card.appendChild(row);
+  }
+
+  if(item.flavorOptions){
+    const row = document.createElement('div');
+    row.className = 'opt-row';
+    const lbl = document.createElement('div');
+    lbl.className = 'opt-label';
+    lbl.textContent = item.flavorLabel || 'Auswahl';
+    row.appendChild(lbl);
+    const sel = document.createElement('select');
+    sel.className = 'opt-select';
+    item.flavorOptions.forEach(f=>{
+      const o = document.createElement('option');
+      o.value = f; o.textContent = f;
+      sel.appendChild(o);
+    });
+    sel.value = st.flavor;
+    sel.addEventListener('change', ()=>{ st.flavor = sel.value; refreshCart(); });
+    row.appendChild(sel);
+    card.appendChild(row);
+  }
+
+  if(item.extras){
+    const row = document.createElement('div');
+    row.className = 'opt-row';
+    const lbl = document.createElement('div');
+    lbl.className = 'opt-label';
+    lbl.textContent = 'Extras';
+    row.appendChild(lbl);
+    const list = document.createElement('div');
+    list.className = 'extras-list';
+    item.extras.forEach(ex=>{
+      const chip = document.createElement('label');
+      chip.className = 'extra-chip';
+      chip.innerHTML = `<span><input type="checkbox" data-key="${ex.key}"> ${ex.label}</span><span class="ex-price">+ ${fmt(ex.price)}</span>`;
+      chip.querySelector('input').addEventListener('change', (e)=>{
+        st.extras[ex.key] = e.target.checked; refreshItem(item); refreshCart();
+      });
+      list.appendChild(chip);
+    });
+    row.appendChild(list);
+    card.appendChild(row);
+  }
+
+  const qtyRow = document.createElement('div');
+  qtyRow.className = 'qty-row';
+  const ctrl = document.createElement('div');
+  ctrl.className = 'qty-ctrl';
+  const minus = document.createElement('button');
+  minus.className = 'qty-btn'; minus.textContent = '–'; minus.type='button';
+  const val = document.createElement('span');
+  val.className = 'qty-val'; val.id = 'qty-'+item.id; val.textContent = '0';
+  const plus = document.createElement('button');
+  plus.className = 'qty-btn'; plus.textContent = '+'; plus.type='button';
+  minus.addEventListener('click', ()=>{ st.qty = Math.max(0, st.qty-1); refreshItem(item); refreshCart(); });
+  plus.addEventListener('click', ()=>{ st.qty += 1; refreshItem(item); refreshCart(); });
+  ctrl.appendChild(minus); ctrl.appendChild(val); ctrl.appendChild(plus);
+  qtyRow.appendChild(ctrl);
+  const lineTotal = document.createElement('div');
+  lineTotal.className = 'line-total';
+  lineTotal.id = 'linetotal-'+item.id;
+  qtyRow.appendChild(lineTotal);
+  card.appendChild(qtyRow);
+
+  return card;
+}
+
+function refreshItem(item){
+  const st = getState(item);
+  const up = unitPrice(item, st);
+  document.getElementById('price-'+item.id).textContent = fmt(up);
+  document.getElementById('qty-'+item.id).textContent = st.qty;
+  document.getElementById('linetotal-'+item.id).textContent = st.qty>0 ? fmt(up*st.qty) : '';
+}
+
+/* ============ RENDER SECTIONS ============ */
+const menuRoot = document.getElementById('menuRoot');
+const catnavInner = document.getElementById('catnavInner');
+
+MENU.forEach(entry=>{
+  const pill = document.createElement('button');
+  pill.className = 'cat-pill';
+  pill.textContent = entry.label;
+  pill.addEventListener('click', ()=>{
+    document.getElementById('cat-'+entry.id).scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  catnavInner.appendChild(pill);
+
+  const section = document.createElement('section');
+  section.className = 'cat';
+  section.id = 'cat-'+entry.id;
+
+  const h2 = document.createElement('h2');
+  h2.textContent = entry.label;
+  section.appendChild(h2);
+  const hr = document.createElement('div');
+  hr.className = 'cat-hr';
+  section.appendChild(hr);
+
+  if(entry.kind === 'list'){
+    entry.items.forEach(item=> section.appendChild(renderItemCard(item)));
+  } else if(entry.kind === 'tabs'){
+    const tabRow = document.createElement('div');
+    tabRow.className = 'subtabs';
+    const panels = [];
+    entry.tabs.forEach((tab, idx)=>{
+      const btn = document.createElement('button');
+      btn.className = 'subtab-pill' + (idx===0 ? ' active' : '');
+      btn.textContent = tab.label;
+      btn.type = 'button';
+      tabRow.appendChild(btn);
+
+      const panel = document.createElement('div');
+      panel.className = 'subpanel';
+      if(idx!==0) panel.style.display = 'none';
+
+      if(tab.items){
+        tab.items.forEach(item=> panel.appendChild(renderItemCard(item)));
+      } else if(tab.groups){
+        tab.groups.forEach(g=>{
+          const gh = document.createElement('div');
+          gh.className = 'subgroup-heading';
+          gh.textContent = g.label;
+          panel.appendChild(gh);
+          g.items.forEach(item=> panel.appendChild(renderItemCard(item)));
+        });
+      }
+      panels.push(panel);
+
+      btn.addEventListener('click', ()=>{
+        tabRow.querySelectorAll('.subtab-pill').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        panels.forEach(p=>p.style.display='none');
+        panel.style.display='';
+      });
+    });
+    section.appendChild(tabRow);
+    panels.forEach(p=>section.appendChild(p));
+  }
+
+  menuRoot.appendChild(section);
+});
+
+forEachItem(item=>refreshItem(item));
+
+/* active pill on scroll */
+const pills = Array.from(catnavInner.children);
+const sections = MENU.map(e=>document.getElementById('cat-'+e.id));
+function updateActivePill(){
+  let idx = 0;
+  const y = window.scrollY + 90;
+  sections.forEach((s,i)=>{ if(s.offsetTop <= y) idx = i; });
+  pills.forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+window.addEventListener('scroll', updateActivePill, {passive:true});
+updateActivePill();
+
+/* ============ CART / SUMMARY ============ */
+const tableSel = document.getElementById('tableSel');
+for(let i=1;i<=20;i++){
+  const o = document.createElement('option');
+  o.value = i; o.textContent = 'Tisch ' + i;
+  tableSel.appendChild(o);
+}
+
+function getCartLines(){
+  const lines = [];
+  forEachItem(item=>{
+    const st = getState(item);
+    if(st.qty > 0){
+      const up = unitPrice(item, st);
+      const opts = [];
+      if(item.variants) opts.push(item.variants.find(v=>v.key===st.variant).label);
+      if(item.flavorOptions) opts.push(st.flavor);
+      if(item.extras) item.extras.forEach(ex=>{ if(st.extras[ex.key]) opts.push('+ '+ex.label); });
+      lines.push({ name:item.name, qty:st.qty, unit:up, total:up*st.qty, opts });
+    }
+  });
+  return lines;
+}
+
+function refreshCart(){
+  const lines = getCartLines();
+  const count = lines.reduce((s,l)=>s+l.qty,0);
+  const total = lines.reduce((s,l)=>s+l.total,0);
+  document.getElementById('cartCount').textContent = count===0 ? 'Noch keine Auswahl' : (count + (count===1?' Position':' Positionen'));
+  document.getElementById('cartTotal').textContent = fmt(total);
+  document.getElementById('showSummaryBtn').disabled = count===0;
+}
+refreshCart();
+
+const overlay = document.getElementById('overlay');
+document.getElementById('showSummaryBtn').addEventListener('click', ()=>{
+  const lines = getCartLines();
+  const total = lines.reduce((s,l)=>s+l.total,0);
+  document.getElementById('sumName').textContent = document.getElementById('guestName').value.trim() || '(ohne Namen)';
+  document.getElementById('sumTable').textContent = tableSel.value;
+  const sumLines = document.getElementById('sumLines');
+  sumLines.innerHTML = '';
+  lines.forEach(l=>{
+    const row = document.createElement('div');
+    row.className = 'sum-line';
+    const optHtml = l.opts.length ? `<span class="opt">${l.opts.join(' · ')}</span>` : '';
+    row.innerHTML = `<span class="nm">${l.qty}× ${l.name}${optHtml}</span><span>${fmt(l.total)}</span>`;
+    sumLines.appendChild(row);
+  });
+  document.getElementById('sumTotalVal').textContent = fmt(total);
+  overlay.classList.add('show');
+});
+document.getElementById('closeSummaryBtn').addEventListener('click', ()=>{
+  overlay.classList.remove('show');
+});
+document.getElementById('clearAllBtn').addEventListener('click', ()=>{
+  forEachItem(item=>{
+    const st = getState(item);
+    st.qty = 0;
+    if(item.extras) item.extras.forEach(ex=>st.extras[ex.key]=false);
+    if(item.variants) st.variant = item.variants[0].key;
+    if(item.flavorOptions) st.flavor = item.flavorOptions[0];
+
+    const card = document.getElementById('item-'+item.id);
+    if(card){
+      card.querySelectorAll('.extra-chip input[type=checkbox]').forEach(cb=>cb.checked=false);
+      card.querySelectorAll('.variant-chip input[type=radio]').forEach((rb,i)=>rb.checked = i===0);
+      const sel = card.querySelector('.opt-select');
+      if(sel) sel.value = item.flavorOptions[0];
+    }
+    refreshItem(item);
+  });
+  refreshCart();
+  overlay.classList.remove('show');
+});
+</script>
+</body>
+</html>
