@@ -62,6 +62,48 @@
     margin-top:2px;
   }
 
+  /* ---------- Cart FAB (fixed, top-right, always visible) ---------- */
+  .cart-fab{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    position:fixed;
+    top:14px;
+    right:14px;
+    z-index:50;
+    padding:9px 14px;
+    border-radius:999px;
+    border:1px solid rgba(198,154,60,0.5);
+    background:rgba(36,31,26,0.92);
+    backdrop-filter:blur(6px);
+    color:var(--gold);
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,0.3);
+  }
+  .cart-fab span:not(.cart-fab-badge){
+    display:none;
+  }
+  @media (min-width:480px){
+    .cart-fab span:not(.cart-fab-badge){display:inline;}
+  }
+  .cart-fab-badge{
+    background:var(--rust);
+    color:#fff;
+    border-radius:999px;
+    min-width:19px;
+    height:19px;
+    padding:0 5px;
+    font-size:11px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    line-height:1;
+  }
+
   /* ---------- Guest info card ---------- */
   .guest-card{
     max-width:640px;
@@ -101,27 +143,25 @@
     background:rgba(36,31,26,0.96);
     backdrop-filter:blur(6px);
     border-bottom:1px solid var(--line);
-    padding:10px 14px;
+    padding:16px 14px 20px;
     margin-top:18px;
   }
   .catnav-inner{
     max-width:640px;
     margin:0 auto;
     display:flex;
-    gap:8px;
-    overflow-x:auto;
-    scrollbar-width:none;
-    padding-bottom:2px;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
   }
-  .catnav-inner::-webkit-scrollbar{display:none;}
   .cat-pill{
     flex:none;
-    padding:7px 14px;
+    padding:12px 20px;
     border-radius:999px;
     border:1px solid var(--line);
     background:transparent;
     color:#d9cbb0;
-    font-size:13.5px;
+    font-size:15.5px;
     font-weight:500;
     cursor:pointer;
     white-space:nowrap;
@@ -132,22 +172,27 @@
   /* ---------- Sub-tabs (Desserts / Getränke) ---------- */
   .subtabs{
     display:flex;
-    gap:8px;
-    margin:0 4px 18px;
+    gap:10px;
+    margin:0 4px 20px;
     flex-wrap:wrap;
+    padding:6px;
+    background:rgba(92,107,63,0.12);
+    border-radius:12px;
   }
   .subtab-pill{
-    padding:7px 15px;
+    flex:1;
+    min-width:110px;
+    padding:12px 18px;
     border-radius:8px;
     border:1px solid rgba(92,107,63,0.55);
-    background:transparent;
-    color:#cdbfa2;
-    font-size:13.5px;
-    font-weight:600;
+    background:rgba(46,39,33,0.5);
+    color:#e7dcc4;
+    font-size:15px;
+    font-weight:700;
     cursor:pointer;
     font-family:'Work Sans', sans-serif;
   }
-  .subtab-pill.active{background:var(--olive);border-color:var(--olive);color:#fff;}
+  .subtab-pill.active{background:var(--olive);border-color:var(--olive);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.25);}
 
   .subgroup-heading{
     font-family:'Work Sans', sans-serif;
@@ -162,7 +207,7 @@
   .subgroup-heading:first-child{border-top:none;padding-top:0;}
 
   /* ---------- Sections ---------- */
-  main{max-width:640px;margin:0 auto;padding:6px 16px 20px;}
+  main{max-width:640px;margin:0 auto;padding:26px 16px 20px;}
   section.cat{margin-top:34px;scroll-margin-top:64px;}
   section.cat h2{
     font-family:'Caveat', cursive;
@@ -269,16 +314,70 @@
     background:var(--paper);color:var(--ink);
     border-radius:16px 16px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));
   }
+  .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
   .sheet h2{font-family:'Fraunces', serif;margin:0 0 4px;font-size:24px;}
-  .sheet .meta{font-size:14px;color:#6b5a3f;margin-bottom:14px;}
+  .sheet-close{
+    flex:none;width:32px;height:32px;border-radius:8px;
+    border:1px solid #d8c9a4;background:#fbf5e6;color:var(--ink);
+    font-size:15px;cursor:pointer;line-height:1;
+  }
+  .sheet-close:active{background:#efe2bf;}
+  .sheet .meta{font-size:14px;color:#6b5a3f;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
   .sheet .meta b{color:var(--ink);}
-  .sum-line{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed #d8c9a4;font-size:14px;}
-  .sum-line .nm{flex:1;}
+  .meta-clear{
+    flex:none;width:26px;height:26px;border-radius:7px;border:1px solid #d8c9a4;
+    background:#fbf5e6;color:#a34430;cursor:pointer;font-size:12.5px;line-height:1;
+  }
+  .meta-clear:active{background:#efe2bf;}
+  .sum-line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed #d8c9a4;font-size:14px;}
+  .sum-line .nm{flex:1;min-width:0;}
+  .sum-line .nm .ttl{font-weight:600;}
   .sum-line .nm .opt{display:block;font-size:11.5px;color:#8a7a63;margin-top:2px;}
+  .sum-line-right{display:flex;align-items:center;gap:10px;flex:none;}
+  .sum-qty-ctrl{display:flex;align-items:center;border:1px solid #d8c9a4;border-radius:7px;overflow:hidden;background:#fbf5e6;}
+  .sum-qty-ctrl button{width:26px;height:26px;background:transparent;border:none;color:var(--ink);font-size:15px;cursor:pointer;line-height:1;}
+  .sum-qty-ctrl button:active{background:#efe2bf;}
+  .sum-qty-ctrl span{min-width:20px;text-align:center;font-weight:600;font-size:13px;}
+  .sum-line-total{font-family:'Fraunces', serif;font-weight:600;font-size:14.5px;color:var(--rust-dark);min-width:58px;text-align:right;}
+  .sum-remove{
+    width:26px;height:26px;border-radius:7px;border:1px solid #d8c9a4;background:#fbf5e6;
+    color:#a34430;cursor:pointer;font-size:14px;line-height:1;flex:none;
+  }
+  .sum-remove:active{background:#efe2bf;}
   .sum-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;padding-top:12px;border-top:2px solid var(--ink);}
   .sum-total .lbl{font-size:15px;font-weight:600;}
   .sum-total .val{font-family:'Fraunces', serif;font-size:28px;font-weight:700;color:var(--rust-dark);}
   .sheet-actions{display:flex;gap:10px;margin-top:18px;}
+
+  .quickadd{
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid #d8c9a4;
+  }
+  .quickadd input{
+    width:100%;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid #d8c9a4;
+    background:#fbf5e6;
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:14.5px;
+  }
+  .quickadd input:focus{outline:2px solid var(--olive);outline-offset:1px;}
+  .quickadd-results{margin-top:8px;display:flex;flex-direction:column;gap:6px;max-height:240px;overflow-y:auto;}
+  .quickadd-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:9px 10px;border-radius:7px;background:#fbf5e6;border:1px solid #e2d3ac;
+  }
+  .quickadd-row .qa-name{font-size:13.5px;font-weight:600;}
+  .quickadd-row .qa-price{font-size:12px;color:#8a6a2f;font-weight:600;margin-left:6px;}
+  .quickadd-row button{
+    flex:none;width:30px;height:30px;border-radius:7px;border:none;
+    background:var(--olive);color:#fff;font-size:17px;cursor:pointer;line-height:1;
+  }
+  .quickadd-row button:active{background:var(--olive-dark);}
+  .quickadd-empty{font-size:12.5px;color:#8a7a63;padding:4px 2px;}
   .btn-secondary{flex:1;padding:12px;border-radius:8px;border:1px solid #b6a679;background:transparent;color:var(--ink);font-weight:600;cursor:pointer;font-family:'Work Sans', sans-serif;}
   .btn-primary{flex:1;padding:12px;border-radius:8px;border:none;background:var(--olive);color:#fff;font-weight:600;cursor:pointer;font-family:'Work Sans', sans-serif;}
 
@@ -308,6 +407,16 @@
   <div class="sub">Bestellung aufnehmen</div>
 </header>
 
+<button class="cart-fab" id="cartFabBtn" aria-label="Warenkorb öffnen">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 4h2l1.6 10.6a2 2 0 0 0 2 1.7h8.8a2 2 0 0 0 2-1.6L21 8H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="10" cy="20" r="1.5" fill="currentColor"/>
+    <circle cx="17" cy="20" r="1.5" fill="currentColor"/>
+  </svg>
+  <span>Warenkorb</span>
+  <span class="cart-fab-badge" id="cartFabBadge">0</span>
+</button>
+
 <div class="guest-card">
   <div class="guest-row">
     <div class="field">
@@ -333,22 +442,41 @@
       <div class="cnt" id="cartCount">Noch keine Auswahl</div>
       <div class="tot" id="cartTotal">0,00 €</div>
     </div>
-    <button class="cartbar-btn" id="showSummaryBtn" disabled>Bestellung anzeigen</button>
+    <button class="cartbar-btn" id="showSummaryBtn" disabled>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-3px;margin-right:6px;">
+        <path d="M3 4h2l1.6 10.6a2 2 0 0 0 2 1.7h8.8a2 2 0 0 0 2-1.6L21 8H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="20" r="1.5" fill="currentColor"/>
+        <circle cx="17" cy="20" r="1.5" fill="currentColor"/>
+      </svg>Warenkorb öffnen</button>
   </div>
 </div>
 
 <div class="overlay" id="overlay">
   <div class="sheet">
-    <h2>Bestellübersicht</h2>
-    <div class="meta"><b id="sumName">—</b> · Tisch <b id="sumTable">—</b></div>
+    <div class="sheet-head">
+      <h2>Warenkorb</h2>
+      <button class="sheet-close" id="sheetCloseX" aria-label="Warenkorb schließen" type="button">✕</button>
+    </div>
+    <div class="meta">
+      <span><b id="sumName">—</b> · Tisch <b id="sumTable">—</b></span>
+      <button class="meta-clear" id="metaClearBtn" type="button" title="Warenkorb leeren">✕</button>
+    </div>
     <div id="sumLines"></div>
+    <div id="sumEmpty" class="empty-note" style="display:none;">Der Warenkorb ist noch leer. Füge unten etwas hinzu.</div>
+
+    <div class="quickadd">
+      <label class="opt-label" for="quickAddInput">Weiteren Artikel hinzufügen</label>
+      <input type="text" id="quickAddInput" placeholder="z. B. Cola, Pizza, Cheesecake …" autocomplete="off">
+      <div id="quickAddResults" class="quickadd-results"></div>
+    </div>
+
     <div class="sum-total">
       <span class="lbl">Gesamt</span>
       <span class="val" id="sumTotalVal">0,00 €</span>
     </div>
     <div class="sheet-actions">
       <button class="btn-secondary" id="closeSummaryBtn">Weiter bestellen</button>
-      <button class="btn-primary" id="clearAllBtn">Bestellung löschen</button>
+      <button class="btn-primary" id="newOrderBtn">Neue Bestellung</button>
     </div>
   </div>
 </div>
@@ -540,18 +668,14 @@ const MENU = [
     { id:'d-eis', label:'Eis', items:EIS_ITEMS },
   ]},
   { id:'getraenke', label:'Getränke', kind:'tabs', tabs:[
-    { id:'g-heiss', label:'Heiß', groups:[
-        {label:'Kaffee', items:KAFFEE_ITEMS},
-        {label:'Tee', items:TEE_ITEMS},
-    ]},
-    { id:'g-kalt', label:'Kalt', groups:[
-        {label:'Softdrinks', items:SOFTDRINKS_ITEMS},
-        {label:'Säfte & Ayran', items:SAEFTE_ITEMS},
-        {label:'Milchshakes', items:SHAKES_ITEMS},
-        {label:'Orient Shakes', items:ORIENT_ITEMS},
-        {label:'Smoothies', items:SMOOTHIE_ITEMS},
-        {label:'Crème & Fruits', items:COCKTAIL_ITEMS},
-    ]},
+    { id:'g-saefte', label:'Säfte & Ayran', items:SAEFTE_ITEMS },
+    { id:'g-shakes', label:'Milchshakes', items:SHAKES_ITEMS },
+    { id:'g-orient', label:'Orient Shakes', items:ORIENT_ITEMS },
+    { id:'g-smoothies', label:'Smoothies', items:SMOOTHIE_ITEMS },
+    { id:'g-cocktails', label:'Crème & Fruits', items:COCKTAIL_ITEMS },
+    { id:'g-soft', label:'Softdrinks', items:SOFTDRINKS_ITEMS },
+    { id:'g-kaffee', label:'Kaffee', items:KAFFEE_ITEMS },
+    { id:'g-tee', label:'Tee', items:TEE_ITEMS },
   ]},
 ];
 
@@ -592,6 +716,33 @@ function forEachItem(cb){
 
 const allItemsById = {};
 forEachItem(item=>{ allItemsById[item.id] = item; getState(item); });
+
+const SEARCH_INDEX = {};
+function buildSearchIndex(){
+  MENU.forEach(entry=>{
+    if(entry.kind==='list'){
+      entry.items.forEach(item=>{
+        SEARCH_INDEX[item.id] = normalize([item.name, entry.label, item.desc||''].join(' '));
+      });
+    } else if(entry.kind==='tabs'){
+      entry.tabs.forEach(tab=>{
+        if(tab.items){
+          tab.items.forEach(item=>{
+            SEARCH_INDEX[item.id] = normalize([item.name, entry.label, tab.label, item.desc||''].join(' '));
+          });
+        }
+        if(tab.groups){
+          tab.groups.forEach(g=>{
+            g.items.forEach(item=>{
+              SEARCH_INDEX[item.id] = normalize([item.name, entry.label, tab.label, g.label, item.desc||''].join(' '));
+            });
+          });
+        }
+      });
+    }
+  });
+}
+buildSearchIndex();
 
 /* ============ RENDER ITEM CARD ============ */
 function renderItemCard(item){
@@ -806,7 +957,7 @@ function getCartLines(){
       if(item.variants) opts.push(item.variants.find(v=>v.key===st.variant).label);
       if(item.flavorOptions) opts.push(st.flavor);
       if(item.extras) item.extras.forEach(ex=>{ if(st.extras[ex.key]) opts.push('+ '+ex.label); });
-      lines.push({ name:item.name, qty:st.qty, unit:up, total:up*st.qty, opts });
+      lines.push({ id:item.id, name:item.name, qty:st.qty, unit:up, total:up*st.qty, opts });
     }
   });
   return lines;
@@ -819,31 +970,135 @@ function refreshCart(){
   document.getElementById('cartCount').textContent = count===0 ? 'Noch keine Auswahl' : (count + (count===1?' Position':' Positionen'));
   document.getElementById('cartTotal').textContent = fmt(total);
   document.getElementById('showSummaryBtn').disabled = count===0;
+  document.getElementById('cartFabBadge').textContent = count;
+  if(overlay.classList.contains('show')) renderSummary();
 }
+const overlay = document.getElementById('overlay');
 refreshCart();
 
-const overlay = document.getElementById('overlay');
-document.getElementById('showSummaryBtn').addEventListener('click', ()=>{
+function renderSummary(){
   const lines = getCartLines();
   const total = lines.reduce((s,l)=>s+l.total,0);
   document.getElementById('sumName').textContent = document.getElementById('guestName').value.trim() || '(ohne Namen)';
   document.getElementById('sumTable').textContent = tableSel.value;
   const sumLines = document.getElementById('sumLines');
+  const emptyNote = document.getElementById('sumEmpty');
   sumLines.innerHTML = '';
+  emptyNote.style.display = lines.length===0 ? '' : 'none';
+
   lines.forEach(l=>{
+    const item = allItemsById[l.id];
+    const st = getState(item);
     const row = document.createElement('div');
     row.className = 'sum-line';
+
+    const nm = document.createElement('div');
+    nm.className = 'nm';
     const optHtml = l.opts.length ? `<span class="opt">${l.opts.join(' · ')}</span>` : '';
-    row.innerHTML = `<span class="nm">${l.qty}× ${l.name}${optHtml}</span><span>${fmt(l.total)}</span>`;
+    nm.innerHTML = `<span class="ttl">${l.name}</span>${optHtml}`;
+    row.appendChild(nm);
+
+    const right = document.createElement('div');
+    right.className = 'sum-line-right';
+
+    const ctrl = document.createElement('div');
+    ctrl.className = 'sum-qty-ctrl';
+    const minus = document.createElement('button');
+    minus.type = 'button'; minus.textContent = '–';
+    const qtySpan = document.createElement('span');
+    qtySpan.textContent = st.qty;
+    const plus = document.createElement('button');
+    plus.type = 'button'; plus.textContent = '+';
+    minus.addEventListener('click', ()=>{ st.qty = Math.max(0, st.qty-1); refreshItem(item); refreshCart(); });
+    plus.addEventListener('click', ()=>{ st.qty += 1; refreshItem(item); refreshCart(); });
+    ctrl.appendChild(minus); ctrl.appendChild(qtySpan); ctrl.appendChild(plus);
+    right.appendChild(ctrl);
+
+    const lt = document.createElement('div');
+    lt.className = 'sum-line-total';
+    lt.textContent = fmt(l.total);
+    right.appendChild(lt);
+
+    const rm = document.createElement('button');
+    rm.className = 'sum-remove';
+    rm.type = 'button';
+    rm.setAttribute('aria-label', 'Entfernen');
+    rm.textContent = '✕';
+    rm.addEventListener('click', ()=>{ st.qty = 0; refreshItem(item); refreshCart(); });
+    right.appendChild(rm);
+
+    row.appendChild(right);
     sumLines.appendChild(row);
   });
+
   document.getElementById('sumTotalVal').textContent = fmt(total);
-  overlay.classList.add('show');
-});
-document.getElementById('closeSummaryBtn').addEventListener('click', ()=>{
-  overlay.classList.remove('show');
-});
-document.getElementById('clearAllBtn').addEventListener('click', ()=>{
+}
+
+/* ---- quick add search (inside the cart) ---- */
+const quickAddInput = document.getElementById('quickAddInput');
+const quickAddResults = document.getElementById('quickAddResults');
+
+function normalize(s){
+  return s.toString().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // ä→a, é→e, ü→u, …
+    .replace(/ß/g,'ss')
+    .replace(/cola/g,'kola'); // treat "cola"/"kola" as the same word
+}
+
+function renderQuickAddResults(){
+  const qNorm = normalize(quickAddInput.value.trim());
+  quickAddResults.innerHTML = '';
+  if(qNorm.length < 2){ return; }
+  const words = qNorm.split(/\s+/).filter(Boolean);
+
+  const nameMatches = [];
+  const otherMatches = [];
+  forEachItem(item=>{
+    const nameNorm = normalize(item.name);
+    if(words.every(w=>nameNorm.includes(w))){
+      nameMatches.push(item);
+      return;
+    }
+    const idx = SEARCH_INDEX[item.id] || nameNorm;
+    if(words.every(w=>idx.includes(w))) otherMatches.push(item);
+  });
+  const matches = nameMatches.concat(otherMatches);
+
+  if(matches.length === 0){
+    const p = document.createElement('div');
+    p.className = 'quickadd-empty';
+    p.textContent = 'Nichts gefunden.';
+    quickAddResults.appendChild(p);
+    return;
+  }
+
+  matches.slice(0, 8).forEach(item=>{
+    const st = getState(item);
+    const up = unitPrice(item, st);
+    const row = document.createElement('div');
+    row.className = 'quickadd-row';
+    row.innerHTML = `<span><span class="qa-name">${item.name}</span><span class="qa-price">${fmt(up)}</span></span>`;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = '+';
+    btn.setAttribute('aria-label', item.name + ' hinzufügen');
+    btn.addEventListener('click', ()=>{
+      st.qty += 1;
+      refreshItem(item);
+      refreshCart();
+      quickAddInput.value = '';
+      quickAddResults.innerHTML = '';
+    });
+    row.appendChild(btn);
+    quickAddResults.appendChild(row);
+  });
+}
+quickAddInput.addEventListener('input', renderQuickAddResults);
+
+function openCart(){ renderSummary(); quickAddInput.value=''; quickAddResults.innerHTML=''; overlay.classList.add('show'); }
+function closeCart(){ overlay.classList.remove('show'); }
+
+function clearCartItems(){
   forEachItem(item=>{
     const st = getState(item);
     st.qty = 0;
@@ -861,8 +1116,32 @@ document.getElementById('clearAllBtn').addEventListener('click', ()=>{
     refreshItem(item);
   });
   refreshCart();
-  overlay.classList.remove('show');
+}
+
+document.getElementById('showSummaryBtn').addEventListener('click', openCart);
+document.getElementById('cartFabBtn').addEventListener('click', openCart);
+document.getElementById('closeSummaryBtn').addEventListener('click', closeCart);
+document.getElementById('sheetCloseX').addEventListener('click', closeCart);
+
+/* click on the dark backdrop (outside the sheet) closes the cart */
+overlay.addEventListener('click', (e)=>{
+  if(e.target === overlay) closeCart();
+});
+
+/* small X next to name/table: clears the cart items only, keeps the same guest & table */
+document.getElementById('metaClearBtn').addEventListener('click', ()=>{
+  clearCartItems();
+  renderSummary();
+});
+
+/* "Neue Bestellung": clears cart AND name AND table, ready for the next guest */
+document.getElementById('newOrderBtn').addEventListener('click', ()=>{
+  clearCartItems();
+  document.getElementById('guestName').value = '';
+  tableSel.selectedIndex = 0;
+  closeCart();
 });
 </script>
+
 </body>
 </html>
