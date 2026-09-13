@@ -314,20 +314,23 @@
     background:var(--paper);color:var(--ink);
     border-radius:16px 16px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));
   }
-  .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
-  .sheet h2{font-family:'Fraunces', serif;margin:0 0 4px;font-size:24px;}
+  .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px;}
+  .sheet h2{font-family:'Fraunces', serif;margin:0;font-size:24px;}
   .sheet-close{
-    flex:none;width:32px;height:32px;border-radius:8px;
+    flex:none;width:34px;height:34px;border-radius:8px;
     border:1px solid #d8c9a4;background:#fbf5e6;color:var(--ink);
-    font-size:15px;cursor:pointer;line-height:1;
+    font-size:16px;cursor:pointer;line-height:1;
   }
   .sheet-close:active{background:#efe2bf;}
-  .sheet .meta{font-size:14px;color:#6b5a3f;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .sheet .meta{font-size:14px;color:#6b5a3f;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .sheet .meta b{color:var(--ink);}
   .meta-clear{
-    flex:none;width:26px;height:26px;border-radius:7px;border:1px solid #d8c9a4;
-    background:#fbf5e6;color:#a34430;cursor:pointer;font-size:12.5px;line-height:1;
+    flex:none;display:flex;align-items:center;gap:5px;
+    padding:5px 10px;border-radius:999px;border:1px solid #d8c9a4;
+    background:#fbf5e6;color:#a34430;cursor:pointer;font-size:12px;font-weight:600;
+    font-family:'Work Sans', sans-serif;
   }
+  .meta-clear:active{background:#efe2bf;}
   .meta-clear:active{background:#efe2bf;}
   .sum-line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed #d8c9a4;font-size:14px;}
   .sum-line .nm{flex:1;min-width:0;}
@@ -459,7 +462,12 @@
     </div>
     <div class="meta">
       <span><b id="sumName">—</b> · Tisch <b id="sumTable">—</b></span>
-      <button class="meta-clear" id="metaClearBtn" type="button" title="Warenkorb leeren">✕</button>
+      <button class="meta-clear" id="metaClearBtn" type="button" title="Warenkorb leeren" aria-label="Warenkorb leeren">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-8 0 1 12a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Leeren
+      </button>
     </div>
     <div id="sumLines"></div>
     <div id="sumEmpty" class="empty-note" style="display:none;">Der Warenkorb ist noch leer. Füge unten etwas hinzu.</div>
