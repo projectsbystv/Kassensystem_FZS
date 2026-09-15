@@ -4,411 +4,1326 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>Four Seasons Café — Bestellung</title>
+<title>Bestellung</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Caveat:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --charcoal:#241f1a;
-    --charcoal-2:#2e2721;
-    --paper:#f2e7cf;
-    --paper-2:#eaddc0;
-    --rust:#a34430;
-    --rust-dark:#8a3626;
-    --olive:#5c6b3f;
-    --olive-dark:#455030;
-    --gold:#c69a3c;
-    --ink:#3a2a1e;
-    --cream:#f2e7cf;
-    --line:rgba(242,231,207,0.14);
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:
-      radial-gradient(1200px 700px at 15% -10%, #34291f 0%, transparent 60%),
-      radial-gradient(900px 600px at 110% 10%, #2c2419 0%, transparent 55%),
-      var(--charcoal);
-    color:var(--cream);
-    font-family:'Work Sans', sans-serif;
-    -webkit-font-smoothing:antialiased;
-    min-height:100vh;
-    padding-bottom:110px;
-  }
-  a{color:inherit;}
-  ::selection{background:var(--gold);color:var(--ink);}
+:root{
+  --bg:#fff;
+  --surface:#f7f2e6;
+  --paper:#f2e7cf;
+  --ink:#2a2018;
+  --ink-soft:#6b5a43;
+  --muted:#8a7a63;
+  --rust:#a34430;
+  --rust-dark:#8a3626;
+  --olive:#5c6b3f;
+  --olive-dark:#455030;
+  --gold:#a5761f;
+  --line:rgba(42,32,24,.12);
 
-  /* ---------- Header ---------- */
-  header.top{
-    padding:28px 20px 14px;
-    text-align:center;
-    max-width:720px;
-    margin:0 auto;
-  }
-  .logo-mark{width:46px;height:46px;margin:0 auto 10px;display:block;}
-  header.top h1{
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    font-size:clamp(28px,6vw,38px);
-    margin:0;
-    letter-spacing:0.2px;
-    color:var(--cream);
-  }
-  header.top .sub{
-    font-family:'Caveat', cursive;
-    font-size:22px;
-    color:var(--gold);
-    margin-top:2px;
-  }
+  --cat1:#5c6b3f;
+  --cat2:#a5761f;
+  --cat3:#a34430;
+  --cat4:#c2703a;
+  --cat5:#8a4a6b;
+  --cat6:#3f5a78;
+  --cat7:#3f6b6b;
+  --cat8:#5a4a78;
+}
 
-  /* ---------- Cart FAB (fixed, top-right, always visible) ---------- */
-  .cart-fab{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    position:fixed;
-    top:14px;
-    right:14px;
-    z-index:50;
-    padding:9px 14px;
-    border-radius:999px;
-    border:1px solid rgba(198,154,60,0.5);
-    background:rgba(36,31,26,0.92);
-    backdrop-filter:blur(6px);
-    color:var(--gold);
-    font-family:'Work Sans', sans-serif;
-    font-weight:600;
-    font-size:13px;
-    cursor:pointer;
-    box-shadow:0 4px 14px rgba(0,0,0,0.3);
-  }
-  .cart-fab span:not(.cart-fab-badge){
-    display:none;
-  }
-  @media (min-width:480px){
-    .cart-fab span:not(.cart-fab-badge){display:inline;}
-  }
-  .cart-fab-badge{
-    background:var(--rust);
-    color:#fff;
-    border-radius:999px;
-    min-width:19px;
-    height:19px;
-    padding:0 5px;
-    font-size:11px;
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    line-height:1;
-  }
+*{
+  box-sizing:border-box;
+}
 
-  /* ---------- Guest info card ---------- */
+html{
+  margin:0;
+  padding:0;
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  padding:0 0 calc(92px + env(safe-area-inset-bottom));
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Work Sans',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  -webkit-tap-highlight-color:transparent;
+}
+
+a{
+  color:inherit;
+}
+
+::selection{
+  background:var(--gold);
+  color:#fff;
+}
+
+
+/* =========================================================
+   WARENKORB – OBEN RECHTS
+   ========================================================= */
+
+.cart-fab{
+  position:fixed;
+  top:max(10px, env(safe-area-inset-top));
+  right:10px;
+  z-index:50;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+
+  width:46px;
+  height:46px;
+  padding:0;
+
+  border:1px solid rgba(163,68,48,.25);
+  border-radius:50%;
+
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+
+  color:var(--rust);
+  cursor:pointer;
+
+  box-shadow:0 3px 12px rgba(42,32,24,.13);
+}
+
+.cart-fab span:not(.cart-fab-badge){
+  display:none;
+}
+
+.cart-fab svg{
+  width:20px;
+  height:20px;
+}
+
+.cart-fab-badge{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+
+  min-width:20px;
+  height:20px;
+  padding:0 5px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:999px;
+
+  background:var(--rust);
+  color:#fff;
+
+  font-size:11px;
+  font-weight:700;
+}
+
+
+/* =========================================================
+   GAST – NAME + TISCH
+   ========================================================= */
+
+.guest-card{
+  width:min(100% - 24px,640px);
+  margin:12px auto 8px;
+  padding:12px;
+
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+.guest-row{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(105px,.65fr);
+  gap:10px;
+}
+
+.field{
+  min-width:0;
+}
+
+.field label{
+  display:block;
+  margin:0 0 6px 2px;
+
+  color:var(--ink-soft);
+  font-size:12.5px;
+  font-weight:600;
+}
+
+.field input,
+.field select{
+  width:100%;
+  height:46px;
+  padding:0 12px;
+
+  border:1px solid rgba(42,32,24,.12);
+  border-radius:9px;
+
+  background:#fff;
+  color:var(--ink);
+
+  font-size:15px;
+}
+
+.field input::placeholder{
+  color:#a99a86;
+}
+
+.field input:focus,
+.field select:focus{
+  outline:2px solid var(--gold);
+  outline-offset:1px;
+}
+
+
+/* =========================================================
+   HAUPTKATEGORIEN
+   ========================================================= */
+
+nav.catnav{
+  position:sticky;
+  top:0;
+  z-index:20;
+
+  margin-top:6px;
+  padding:8px 10px;
+
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+
+  border-bottom:1px solid var(--line);
+}
+
+.catnav-inner{
+  width:min(100%,640px);
+  margin:0 auto;
+
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+
+  justify-content:center;
+
+  padding:1px 2px 3px;
+}
+
+.catnav-inner::-webkit-scrollbar{
+  display:none;
+}
+
+.cat-pill{
+  flex:0 0 auto;
+
+  min-height:44px;
+  padding:0 17px;
+
+  border:0;
+  border-radius:11px;
+
+  color:#fff;
+
+  font-size:14.5px;
+  font-weight:700;
+
+  white-space:nowrap;
+  cursor:pointer;
+
+  opacity:.72;
+
+  box-shadow:0 2px 5px rgba(42,32,24,.12);
+
+  transition:
+    opacity .15s ease,
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+.cat-pill.active{
+  opacity:1;
+  box-shadow:
+    0 0 0 2px var(--ink),
+    0 2px 6px rgba(42,32,24,.15);
+}
+
+.cat-pill:active{
+  transform:scale(.97);
+}
+
+.catnav-inner .cat-pill:nth-child(8n+1){background:var(--cat1);}
+.catnav-inner .cat-pill:nth-child(8n+2){background:var(--cat2);}
+.catnav-inner .cat-pill:nth-child(8n+3){background:var(--cat3);}
+.catnav-inner .cat-pill:nth-child(8n+4){background:var(--cat4);}
+.catnav-inner .cat-pill:nth-child(8n+5){background:var(--cat5);}
+.catnav-inner .cat-pill:nth-child(8n+6){background:var(--cat6);}
+.catnav-inner .cat-pill:nth-child(8n+7){background:var(--cat7);}
+.catnav-inner .cat-pill:nth-child(8n+8){background:var(--cat8);}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main{
+  width:min(100%,640px);
+  margin:0 auto;
+  padding:20px 12px 12px;
+}
+
+section.cat{
+  margin-top:22px;
+  scroll-margin-top:70px;
+}
+
+section.cat h2{
+  margin:0 0 0 2px;
+
+  color:var(--gold);
+
+  font-family:'Work Sans',sans-serif;
+  font-size:15px;
+  font-weight:700;
+
+  letter-spacing:.7px;
+  line-height:1.2;
+  text-transform:uppercase;
+}
+
+section.cat .cat-hr{
+  width:30px;
+  height:2px;
+
+  margin:7px 0 13px 2px;
+
+  background:var(--olive);
+}
+
+
+/* =========================================================
+   UNTERKATEGORIEN
+   ========================================================= */
+
+.subtabs{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(130px, 1fr));
+  gap:7px;
+
+  margin:0 0 15px;
+  padding:5px;
+
+  background:var(--surface);
+  border-radius:10px;
+}
+
+.subtabs::-webkit-scrollbar{
+  display:none;
+}
+
+.subtab-pill{
+  width:100%;
+  min-height:44px;
+  padding:9px 12px;
+
+  border:1px solid var(--line);
+  border-radius:10px;
+
+  background:#fff;
+  color:var(--ink-soft);
+
+  font-size:14px;
+  font-weight:700;
+  line-height:1.25;
+
+  white-space:normal;
+  cursor:pointer;
+}
+
+.subtab-pill.active{
+  border-color:var(--olive);
+  background:var(--olive);
+  color:#fff;
+
+  box-shadow:0 2px 7px rgba(42,32,24,.15);
+}
+
+
+/* =========================================================
+   GRUPPEN
+   ========================================================= */
+
+.subgroup-heading{
+  margin:16px 2px 11px;
+  padding-top:12px;
+
+  border-top:1px dashed var(--line);
+
+  color:var(--gold);
+
+  font-size:14.5px;
+  font-weight:700;
+  letter-spacing:.15px;
+}
+
+.subgroup-heading:first-child{
+  margin-top:0;
+  padding-top:0;
+  border-top:0;
+}
+
+
+/* =========================================================
+   PRODUKT-GRID
+   ========================================================= */
+
+.items-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+
+  align-items:stretch;
+}
+
+.items-grid .item-wide{
+  grid-column:1 / -1;
+}
+
+
+/* =========================================================
+   PRODUKTKARTE
+   ========================================================= */
+
+.item{
+  display:flex;
+  flex-direction:column;
+
+  min-width:0;
+  min-height:128px;
+
+  padding:12px;
+
+  background:var(--paper);
+  color:var(--ink);
+
+  border:1px solid rgba(42,32,24,.07);
+  border-radius:12px;
+}
+
+.item-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:7px;
+
+  min-width:0;
+}
+
+.item-head h3{
+  min-width:0;
+  margin:0;
+
+  color:var(--ink);
+
+  font-family:'Fraunces',serif;
+  font-size:15.5px;
+  font-weight:600;
+  line-height:1.2;
+
+  overflow-wrap:anywhere;
+}
+
+.item-price{
+  flex:none;
+
+  color:var(--rust-dark);
+
+  font-family:'Fraunces',serif;
+  font-size:15px;
+  font-weight:600;
+
+  white-space:nowrap;
+}
+
+.item-desc{
+  margin:3px 0 0;
+
+  color:#5a4a38;
+
+  font-size:11px;
+  line-height:1.35;
+}
+
+
+/* =========================================================
+   AUSWAHL / VARIANTEN
+   ========================================================= */
+
+.opt-row{
+  margin-top:9px;
+}
+
+.opt-label{
+  margin-bottom:5px;
+
+  color:#6b5a3f;
+
+  font-size:12px;
+  font-weight:600;
+}
+
+.variant-list,
+.flavor-row,
+.extras-list{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.variant-btn,
+.flavor-btn{
+  width:100%;
+  min-height:44px;
+  padding:9px 12px;
+
+  border:1.5px solid #e2d3ac;
+  border-radius:10px;
+
+  background:#fbf5e6;
+  color:var(--ink);
+
+  font-family:'Work Sans',sans-serif;
+  font-size:13.5px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  text-align:left;
+}
+
+.flavor-btn{
+  text-align:left;
+}
+
+.variant-btn{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.variant-btn .vb-label{
+  min-width:0;
+  line-height:1.25;
+}
+
+.variant-btn .vb-price{
+  flex:none;
+  color:#8a6a2f;
+  white-space:nowrap;
+}
+
+.variant-btn.active,
+.flavor-btn.active{
+  background:var(--rust);
+  border-color:var(--rust);
+  color:#fff;
+
+  box-shadow:0 2px 7px rgba(163,68,48,.22);
+}
+
+.variant-btn.active .vb-price{
+  color:#fff;
+}
+
+
+/* =========================================================
+   EXTRAS
+   ========================================================= */
+
+.extra-chip{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+
+  min-height:44px;
+  padding:9px 12px;
+
+  border:1.5px solid #e2d3ac;
+  border-radius:10px;
+
+  background:#fbf5e6;
+  color:var(--ink);
+
+  font-size:13.5px;
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+.extra-chip .ex-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  min-width:0;
+}
+
+.extra-chip input{
+  flex:none;
+
+  width:17px;
+  height:17px;
+
+  margin:0;
+
+  accent-color:var(--rust);
+}
+
+.extra-chip .ex-price{
+  flex:none;
+
+  color:#8a6a2f;
+
+  font-size:12px;
+  font-weight:700;
+
+  white-space:nowrap;
+}
+
+.extra-chip.active{
+  background:var(--rust);
+  border-color:var(--rust);
+  color:#fff;
+
+  box-shadow:0 2px 7px rgba(163,68,48,.22);
+}
+
+.extra-chip.active .ex-price{
+  color:#fff;
+}
+
+
+/* =========================================================
+   MENGE
+   ========================================================= */
+
+.qty-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+
+  margin-top:auto;
+  padding-top:9px;
+}
+
+.qty-ctrl{
+  display:flex;
+  align-items:center;
+
+  height:34px;
+
+  border:1px solid #d8c9a4;
+  border-radius:8px;
+
+  overflow:hidden;
+}
+
+.qty-btn{
+  width:34px;
+  height:34px;
+
+  border:0;
+
+  background:#fbf5e6;
+  color:var(--ink);
+
+  font-size:18px;
+  line-height:1;
+
+  cursor:pointer;
+}
+
+.qty-btn:active{
+  background:#efe2bf;
+}
+
+.qty-val{
+  min-width:26px;
+
+  text-align:center;
+
+  font-size:14px;
+  font-weight:600;
+}
+
+.line-total{
+  min-height:18px;
+
+  color:var(--rust-dark);
+
+  font-family:'Fraunces',serif;
+  font-size:14px;
+  font-weight:600;
+
+  white-space:nowrap;
+}
+
+
+/* =========================================================
+   BOTTOM WARENKORB
+   ========================================================= */
+
+.cartbar{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:30;
+
+  padding:
+    9px
+    10px
+    calc(9px + env(safe-area-inset-bottom));
+
+  background:rgba(247,242,230,.97);
+  border-top:1px solid var(--line);
+
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+
+.cartbar-inner{
+  width:min(100%,640px);
+  margin:0 auto;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.cartbar-info{
+  flex:1;
+  min-width:0;
+}
+
+.cartbar-info .cnt{
+  color:var(--ink-soft);
+
+  font-size:11.5px;
+  line-height:1.2;
+}
+
+.cartbar-info .tot{
+  margin-top:1px;
+
+  color:var(--gold);
+
+  font-family:'Fraunces',serif;
+  font-size:22px;
+  font-weight:700;
+}
+
+.cartbar-btn{
+  min-height:46px;
+  padding:0 18px;
+
+  border:0;
+  border-radius:10px;
+
+  background:var(--rust);
+  color:#fff;
+
+  font-size:14.5px;
+  font-weight:700;
+
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.cartbar-btn:disabled{
+  background:#d9cdb9;
+  color:#8a7a63;
+}
+
+
+/* =========================================================
+   WARENKORB OVERLAY
+   ========================================================= */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:40;
+
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+
+  background:rgba(30,24,18,.48);
+}
+
+.overlay.show{
+  display:flex;
+}
+
+.sheet{
+  width:100%;
+  max-width:640px;
+  max-height:88vh;
+
+  overflow-y:auto;
+
+  padding:
+    18px
+    14px
+    calc(18px + env(safe-area-inset-bottom));
+
+  background:var(--paper);
+  color:var(--ink);
+
+  border-radius:16px 16px 0 0;
+
+  -webkit-overflow-scrolling:touch;
+}
+
+.sheet-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+
+  margin-bottom:10px;
+}
+
+.sheet h2{
+  margin:0;
+
+  font-family:'Fraunces',serif;
+  font-size:23px;
+}
+
+.sheet-close{
+  flex:none;
+
+  width:38px;
+  height:38px;
+
+  border:1px solid #d8c9a4;
+  border-radius:9px;
+
+  background:#fbf5e6;
+  color:var(--ink);
+
+  font-size:17px;
+  cursor:pointer;
+}
+
+.sheet .meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+
+  margin-bottom:10px;
+
+  color:#6b5a3f;
+
+  font-size:13px;
+}
+
+.sheet .meta b{
+  color:var(--ink);
+}
+
+.meta-clear{
+  display:flex;
+  align-items:center;
+  gap:5px;
+
+  flex:none;
+
+  padding:7px 10px;
+
+  border:1px solid #d8c9a4;
+  border-radius:999px;
+
+  background:#fbf5e6;
+  color:var(--rust);
+
+  font-size:12px;
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   WARENKORB POSITIONEN
+   ========================================================= */
+
+.sum-line{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+
+  gap:8px;
+
+  padding:10px 0;
+
+  border-bottom:1px dashed #d8c9a4;
+}
+
+.sum-line .nm{
+  min-width:0;
+}
+
+.sum-line .nm .ttl{
+  display:block;
+
+  font-size:14px;
+  font-weight:600;
+  line-height:1.25;
+}
+
+.sum-line .nm .opt{
+  display:block;
+
+  margin-top:2px;
+
+  color:#8a7a63;
+
+  font-size:11px;
+  line-height:1.35;
+}
+
+.sum-line-right{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.sum-qty-ctrl{
+  display:flex;
+  align-items:center;
+
+  height:32px;
+
+  border:1px solid #d8c9a4;
+  border-radius:8px;
+
+  overflow:hidden;
+
+  background:#fbf5e6;
+}
+
+.sum-qty-ctrl button{
+  width:30px;
+  height:32px;
+
+  border:0;
+  background:transparent;
+
+  color:var(--ink);
+
+  font-size:16px;
+
+  cursor:pointer;
+}
+
+.sum-qty-ctrl span{
+  min-width:23px;
+
+  text-align:center;
+
+  font-size:13px;
+  font-weight:600;
+}
+
+.sum-line-total{
+  min-width:55px;
+
+  color:var(--rust-dark);
+
+  font-family:'Fraunces',serif;
+  font-size:14px;
+  font-weight:600;
+
+  text-align:right;
+}
+
+.sum-remove{
+  width:31px;
+  height:31px;
+
+  border:1px solid #d8c9a4;
+  border-radius:8px;
+
+  background:#fbf5e6;
+  color:var(--rust);
+
+  font-size:14px;
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   SCHNELL HINZUFÜGEN
+   ========================================================= */
+
+.quickadd{
+  margin-top:12px;
+  padding-top:12px;
+
+  border-top:1px solid #d8c9a4;
+}
+
+.quickadd input{
+  width:100%;
+  height:44px;
+
+  padding:0 12px;
+
+  border:1px solid #d8c9a4;
+  border-radius:9px;
+
+  background:#fbf5e6;
+  color:var(--ink);
+
+  font-size:14px;
+}
+
+.quickadd input:focus{
+  outline:2px solid var(--olive);
+  outline-offset:1px;
+}
+
+.quickadd-results{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+
+  max-height:200px;
+
+  margin-top:7px;
+
+  overflow-y:auto;
+}
+
+.quickadd-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+
+  padding:8px 9px;
+
+  border:1px solid #e2d3ac;
+  border-radius:8px;
+
+  background:#fbf5e6;
+}
+
+.quickadd-row .qa-name{
+  font-size:13px;
+  font-weight:600;
+}
+
+.quickadd-row .qa-price{
+  margin-left:4px;
+
+  color:#8a6a2f;
+
+  font-size:11px;
+  font-weight:600;
+}
+
+.quickadd-row button{
+  flex:none;
+
+  width:34px;
+  height:34px;
+
+  border:0;
+  border-radius:8px;
+
+  background:var(--olive);
+  color:#fff;
+
+  font-size:18px;
+
+  cursor:pointer;
+}
+
+.quickadd-empty{
+  padding:4px 2px;
+
+  color:#8a7a63;
+
+  font-size:12px;
+}
+
+
+/* =========================================================
+   GESAMT
+   ========================================================= */
+
+.sum-total{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+
+  margin-top:12px;
+  padding-top:10px;
+
+  border-top:2px solid var(--ink);
+}
+
+.sum-total .lbl{
+  font-size:15px;
+  font-weight:600;
+}
+
+.sum-total .val{
+  color:var(--rust-dark);
+
+  font-family:'Fraunces',serif;
+  font-size:25px;
+  font-weight:700;
+}
+
+.sheet-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  gap:8px;
+
+  margin-top:13px;
+}
+
+.btn-secondary,
+.btn-primary{
+  min-height:46px;
+  padding:0 12px;
+
+  border-radius:10px;
+
+  font-size:14px;
+  font-weight:700;
+
+  cursor:pointer;
+}
+
+.btn-secondary{
+  border:1px solid #b6a679;
+  background:transparent;
+  color:var(--ink);
+}
+
+.btn-primary{
+  border:0;
+  background:var(--olive);
+  color:#fff;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer{
+  width:min(100% - 24px,640px);
+  margin:26px auto 0;
+  padding:0;
+}
+
+details.allergens{
+  padding-top:12px;
+
+  border-top:1px solid var(--line);
+}
+
+details.allergens summary{
+  color:var(--ink-soft);
+
+  font-size:13px;
+  font-weight:500;
+
+  cursor:pointer;
+}
+
+details.allergens .al-body{
+  margin-top:8px;
+
+  color:var(--muted);
+
+  font-size:11.5px;
+  line-height:1.55;
+}
+
+
+/* =========================================================
+   KLEINE HANDYS
+   ========================================================= */
+
+@media(max-width:380px){
+
   .guest-card{
-    max-width:640px;
-    margin:18px auto 6px;
-    padding:16px;
-    background:var(--charcoal-2);
-    border:1px solid var(--line);
-    border-radius:10px;
+    width:calc(100% - 18px);
+    padding:10px;
   }
-  .guest-row{display:flex;gap:12px;flex-wrap:wrap;}
-  .field{flex:1;min-width:140px;}
-  .field label{
-    display:block;
-    font-size:12.5px;
-    color:#c9bda6;
-    margin-bottom:5px;
-    font-weight:500;
+
+  .guest-row{
+    grid-template-columns:minmax(0,1.25fr) minmax(95px,.75fr);
+    gap:7px;
   }
-  .field input, .field select{
-    width:100%;
-    padding:10px 12px;
-    background:var(--charcoal);
-    border:1px solid var(--line);
-    border-radius:7px;
-    color:var(--cream);
-    font-family:'Work Sans', sans-serif;
+
+  .field input,
+  .field select{
+    height:43px;
+    padding:0 10px;
+    font-size:14px;
+  }
+
+  main{
+    padding-left:9px;
+    padding-right:9px;
+  }
+
+  .items-grid{
+    gap:7px;
+  }
+
+  .item{
+    padding:10px;
+    min-height:126px;
+  }
+
+  .item-head h3{
     font-size:15px;
   }
-  .field input::placeholder{color:#8d7f6b;}
-  .field input:focus, .field select:focus{outline:2px solid var(--gold);outline-offset:1px;}
 
-  /* ---------- Top category nav ---------- */
-  nav.catnav{
-    position:sticky;
-    top:0;
-    z-index:20;
-    background:rgba(36,31,26,0.96);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
-    padding:16px 14px 20px;
+  .item-price{
+    font-size:14px;
+  }
+
+  .cartbar-btn{
+    padding:0 13px;
+    font-size:13px;
+  }
+
+  .cartbar-info .tot{
+    font-size:20px;
+  }
+}
+
+
+/* =========================================================
+   TABLET / DESKTOP
+   ========================================================= */
+
+@media(min-width:600px){
+
+  .cart-fab{
+    width:auto;
+    height:auto;
+
+    padding:11px 14px;
+
+    border-radius:999px;
+  }
+
+  .cart-fab span:not(.cart-fab-badge){
+    display:block;
+    font-size:13px;
+  }
+
+  .cart-fab-badge{
+    position:static;
+    min-width:22px;
+    height:22px;
+  }
+
+  .guest-card{
     margin-top:18px;
   }
+
+  nav.catnav{
+    padding:10px 14px;
+  }
+
   .catnav-inner{
-    max-width:640px;
-    margin:0 auto;
-    display:flex;
-    flex-wrap:wrap;
     justify-content:center;
-    gap:10px;
-  }
-  .cat-pill{
-    flex:none;
-    padding:12px 20px;
-    border-radius:999px;
-    border:1px solid var(--line);
-    background:transparent;
-    color:#d9cbb0;
-    font-size:15.5px;
-    font-weight:500;
-    cursor:pointer;
-    white-space:nowrap;
-    font-family:'Work Sans', sans-serif;
-  }
-  .cat-pill.active{background:var(--rust);border-color:var(--rust);color:#fff;}
-
-  /* ---------- Sub-tabs (Desserts / Getränke) ---------- */
-  .subtabs{
-    display:flex;
-    gap:10px;
-    margin:0 4px 20px;
     flex-wrap:wrap;
-    padding:6px;
-    background:rgba(92,107,63,0.12);
-    border-radius:12px;
+    overflow:visible;
   }
-  .subtab-pill{
-    flex:1;
-    min-width:110px;
-    padding:12px 18px;
-    border-radius:8px;
-    border:1px solid rgba(92,107,63,0.55);
-    background:rgba(46,39,33,0.5);
-    color:#e7dcc4;
+
+  .cat-pill{
+    min-height:44px;
+    padding:0 19px;
     font-size:15px;
-    font-weight:700;
-    cursor:pointer;
-    font-family:'Work Sans', sans-serif;
-  }
-  .subtab-pill.active{background:var(--olive);border-color:var(--olive);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.25);}
-
-  .subgroup-heading{
-    font-family:'Work Sans', sans-serif;
-    font-weight:600;
-    font-size:13px;
-    letter-spacing:0.2px;
-    color:var(--gold);
-    margin:4px 4px 10px;
-    padding-top:10px;
-    border-top:1px dashed var(--line);
-  }
-  .subgroup-heading:first-child{border-top:none;padding-top:0;}
-
-  /* ---------- Sections ---------- */
-  main{max-width:640px;margin:0 auto;padding:26px 16px 20px;}
-  section.cat{margin-top:34px;scroll-margin-top:64px;}
-  section.cat h2{
-    font-family:'Caveat', cursive;
-    font-weight:700;
-    font-size:34px;
-    color:var(--gold);
-    margin:0 0 2px 4px;
-    line-height:1;
-  }
-  section.cat .cat-hr{
-    height:1px;
-    background:linear-gradient(90deg, var(--olive), transparent);
-    margin:6px 0 16px;
   }
 
-  /* ---------- Item card ---------- */
+  main{
+    padding:24px 16px 20px;
+  }
+
+  .items-grid{
+    gap:10px;
+  }
+
   .item{
-    background:var(--paper);
-    color:var(--ink);
-    border-radius:4px 12px 4px 12px;
-    padding:14px 16px 12px;
-    margin-bottom:12px;
-    box-shadow:0 3px 0 rgba(0,0,0,0.18);
+    padding:12px 13px;
   }
-  .item:nth-child(odd){transform:rotate(-0.35deg);}
-  .item:nth-child(even){transform:rotate(0.3deg);}
-  .item:focus-within, .item:hover{transform:rotate(0deg);}
-  .item-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+
   .item-head h3{
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    font-size:17.5px;
-    margin:0;
-    color:var(--ink);
+    font-size:18px;
   }
+
   .item-price{
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    font-size:16.5px;
-    color:var(--rust-dark);
-    white-space:nowrap;
+    font-size:16px;
   }
-  .item-desc{font-size:13.3px;color:#5a4a38;margin:5px 0 0;line-height:1.4;}
+}
 
-  .opt-row{margin-top:10px;}
-  .opt-label{font-size:12px;font-weight:600;color:#6b5a3f;margin-bottom:5px;}
-  select.opt-select{
-    width:100%;
-    padding:7px 9px;
-    border-radius:6px;
-    border:1px solid #d8c9a4;
-    background:#fbf5e6;
-    color:var(--ink);
-    font-family:'Work Sans', sans-serif;
-    font-size:13.5px;
-  }
-  .extras-list{display:flex;flex-direction:column;gap:6px;}
-  .extra-chip{
-    display:flex;align-items:center;justify-content:space-between;gap:8px;
-    padding:6px 8px;border-radius:6px;background:#fbf5e6;
-    border:1px solid #e2d3ac;font-size:13px;cursor:pointer;
-  }
-  .extra-chip input{margin:0;accent-color:var(--rust);}
-  .extra-chip .ex-price{color:#8a6a2f;font-weight:600;white-space:nowrap;}
+@media(min-width:760px){
 
-  .variant-list{display:flex;flex-direction:column;gap:6px;}
-  .variant-chip{
-    display:flex;align-items:center;justify-content:space-between;gap:8px;
-    padding:7px 9px;border-radius:6px;background:#fbf5e6;
-    border:1px solid #e2d3ac;font-size:13.3px;cursor:pointer;
+  .guest-card{
+    margin-top:22px;
   }
-  .variant-chip input{margin:0;accent-color:var(--rust);}
-  .variant-chip .v-price{color:#8a6a2f;font-weight:600;white-space:nowrap;}
 
-  .qty-row{margin-top:12px;display:flex;align-items:center;justify-content:space-between;}
-  .qty-ctrl{display:flex;align-items:center;border:1px solid #d8c9a4;border-radius:7px;overflow:hidden;}
-  .qty-btn{width:32px;height:32px;background:#fbf5e6;border:none;color:var(--ink);font-size:17px;cursor:pointer;line-height:1;}
-  .qty-btn:active{background:#efe2bf;}
-  .qty-val{min-width:28px;text-align:center;font-weight:600;font-size:14.5px;}
-  .line-total{font-family:'Fraunces', serif;font-weight:600;font-size:15px;color:var(--rust-dark);min-height:19px;}
+  .items-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
 
-  /* ---------- Cart bar ---------- */
-  .cartbar{
-    position:fixed;left:0;right:0;bottom:0;z-index:30;
-    background:var(--charcoal-2);border-top:1px solid var(--line);
-    padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  .items-grid .item-wide{
+    grid-column:1 / -1;
   }
-  .cartbar-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:12px;}
-  .cartbar-info{flex:1;min-width:0;}
-  .cartbar-info .cnt{font-size:12px;color:#c9bda6;}
-  .cartbar-info .tot{font-family:'Fraunces', serif;font-weight:700;font-size:22px;color:var(--gold);}
-  .cartbar-btn{
-    background:var(--rust);color:#fff;border:none;padding:12px 20px;
-    border-radius:8px;font-weight:600;font-size:14.5px;cursor:pointer;
-    font-family:'Work Sans', sans-serif;white-space:nowrap;
-  }
-  .cartbar-btn:disabled{background:#5c5147;cursor:not-allowed;}
+}
 
-  /* ---------- Summary overlay ---------- */
-  .overlay{position:fixed;inset:0;background:rgba(20,17,14,0.72);z-index:40;display:none;align-items:flex-end;justify-content:center;}
-  .overlay.show{display:flex;}
-  .sheet{
-    width:100%;max-width:640px;max-height:86vh;overflow-y:auto;
-    background:var(--paper);color:var(--ink);
-    border-radius:16px 16px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));
-  }
-  .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px;}
-  .sheet h2{font-family:'Fraunces', serif;margin:0;font-size:24px;}
-  .sheet-close{
-    flex:none;width:34px;height:34px;border-radius:8px;
-    border:1px solid #d8c9a4;background:#fbf5e6;color:var(--ink);
-    font-size:16px;cursor:pointer;line-height:1;
-  }
-  .sheet-close:active{background:#efe2bf;}
-  .sheet .meta{font-size:14px;color:#6b5a3f;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .sheet .meta b{color:var(--ink);}
-  .meta-clear{
-    flex:none;display:flex;align-items:center;gap:5px;
-    padding:5px 10px;border-radius:999px;border:1px solid #d8c9a4;
-    background:#fbf5e6;color:#a34430;cursor:pointer;font-size:12px;font-weight:600;
-    font-family:'Work Sans', sans-serif;
-  }
-  .meta-clear:active{background:#efe2bf;}
-  .meta-clear:active{background:#efe2bf;}
-  .sum-line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed #d8c9a4;font-size:14px;}
-  .sum-line .nm{flex:1;min-width:0;}
-  .sum-line .nm .ttl{font-weight:600;}
-  .sum-line .nm .opt{display:block;font-size:11.5px;color:#8a7a63;margin-top:2px;}
-  .sum-line-right{display:flex;align-items:center;gap:10px;flex:none;}
-  .sum-qty-ctrl{display:flex;align-items:center;border:1px solid #d8c9a4;border-radius:7px;overflow:hidden;background:#fbf5e6;}
-  .sum-qty-ctrl button{width:26px;height:26px;background:transparent;border:none;color:var(--ink);font-size:15px;cursor:pointer;line-height:1;}
-  .sum-qty-ctrl button:active{background:#efe2bf;}
-  .sum-qty-ctrl span{min-width:20px;text-align:center;font-weight:600;font-size:13px;}
-  .sum-line-total{font-family:'Fraunces', serif;font-weight:600;font-size:14.5px;color:var(--rust-dark);min-width:58px;text-align:right;}
-  .sum-remove{
-    width:26px;height:26px;border-radius:7px;border:1px solid #d8c9a4;background:#fbf5e6;
-    color:#a34430;cursor:pointer;font-size:14px;line-height:1;flex:none;
-  }
-  .sum-remove:active{background:#efe2bf;}
-  .sum-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;padding-top:12px;border-top:2px solid var(--ink);}
-  .sum-total .lbl{font-size:15px;font-weight:600;}
-  .sum-total .val{font-family:'Fraunces', serif;font-size:28px;font-weight:700;color:var(--rust-dark);}
-  .sheet-actions{display:flex;gap:10px;margin-top:18px;}
-
-  .quickadd{
-    margin-top:16px;
-    padding-top:14px;
-    border-top:1px solid #d8c9a4;
-  }
-  .quickadd input{
-    width:100%;
-    padding:10px 12px;
-    border-radius:8px;
-    border:1px solid #d8c9a4;
-    background:#fbf5e6;
-    color:var(--ink);
-    font-family:'Work Sans', sans-serif;
-    font-size:14.5px;
-  }
-  .quickadd input:focus{outline:2px solid var(--olive);outline-offset:1px;}
-  .quickadd-results{margin-top:8px;display:flex;flex-direction:column;gap:6px;max-height:240px;overflow-y:auto;}
-  .quickadd-row{
-    display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:9px 10px;border-radius:7px;background:#fbf5e6;border:1px solid #e2d3ac;
-  }
-  .quickadd-row .qa-name{font-size:13.5px;font-weight:600;}
-  .quickadd-row .qa-price{font-size:12px;color:#8a6a2f;font-weight:600;margin-left:6px;}
-  .quickadd-row button{
-    flex:none;width:30px;height:30px;border-radius:7px;border:none;
-    background:var(--olive);color:#fff;font-size:17px;cursor:pointer;line-height:1;
-  }
-  .quickadd-row button:active{background:var(--olive-dark);}
-  .quickadd-empty{font-size:12.5px;color:#8a7a63;padding:4px 2px;}
-  .btn-secondary{flex:1;padding:12px;border-radius:8px;border:1px solid #b6a679;background:transparent;color:var(--ink);font-weight:600;cursor:pointer;font-family:'Work Sans', sans-serif;}
-  .btn-primary{flex:1;padding:12px;border-radius:8px;border:none;background:var(--olive);color:#fff;font-weight:600;cursor:pointer;font-family:'Work Sans', sans-serif;}
-
-  /* ---------- Footer / allergens ---------- */
-  footer{max-width:640px;margin:36px auto 0;padding:0 20px;}
-  details.allergens{border-top:1px solid var(--line);padding-top:14px;}
-  details.allergens summary{cursor:pointer;font-size:13.5px;color:#c9bda6;font-weight:500;}
-  details.allergens .al-body{font-size:11.8px;color:#a4977f;line-height:1.6;margin-top:10px;}
-
-  @media (min-width:720px){ .item-head h3{font-size:18.5px;} }
 </style>
 </head>
 <body>
-
-<header class="top">
-  <svg class="logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M32 58V34" stroke="#c69a3c" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M32 40c-8 0-14-6-14-6s2 8 10 10" stroke="#c69a3c" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-    <path d="M32 34c8 0 14-7 14-7s-2 9-11 11" stroke="#c69a3c" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-    <circle cx="22" cy="18" r="3" fill="#a34430"/>
-    <circle cx="32" cy="12" r="3.4" fill="#c69a3c"/>
-    <circle cx="42" cy="18" r="3" fill="#5c6b3f"/>
-    <circle cx="27" cy="24" r="2.6" fill="#5c6b3f"/>
-    <circle cx="37" cy="24" r="2.6" fill="#a34430"/>
-  </svg>
-  <h1>Four Seasons Café</h1>
-  <div class="sub">Bestellung aufnehmen</div>
-</header>
 
 <button class="cart-fab" id="cartFabBtn" aria-label="Warenkorb öffnen">
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -505,7 +1420,6 @@
 
 const CREPES_ITEMS = [
   { id:'c1', name:'Crêpe (Basis)', price:5.50,
-    desc:'Inklusive Nutella, Lotussauce oder Erdbeersauce.',
     flavorLabel:'Sauce', flavorOptions:['Nutella','Lotussauce','Erdbeersauce'],
     extras:[
       {key:'banane',label:'Banane',price:2.00},
@@ -520,9 +1434,15 @@ const CREPES_ITEMS = [
 ];
 
 const CHEESECAKE_ITEMS = [
-  { id:'ch1', name:'Cheesecake (Stück)', price:5.50, flavorLabel:'Sorte', flavorOptions:[
-    'Raffaello','Karamell-Lotus','Kinder Maxi King','Kinder Bueno','Oreo','Blueberry','Raspberry','Strawberry','Pistazien-Safran-Nuss'
-  ]},
+  {id:'ch1',name:'Raffaello',price:5.50},
+  {id:'ch2',name:'Karamell-Lotus',price:5.50},
+  {id:'ch3',name:'Kinder Maxi King',price:5.50},
+  {id:'ch4',name:'Kinder Bueno',price:5.50},
+  {id:'ch5',name:'Oreo',price:5.50},
+  {id:'ch6',name:'Blueberry',price:5.50},
+  {id:'ch7',name:'Raspberry',price:5.50},
+  {id:'ch8',name:'Strawberry',price:5.50},
+  {id:'ch9',name:'Pistazien-Safran-Nuss',price:5.50},
 ];
 
 const EIS_ITEMS = [
@@ -533,6 +1453,8 @@ const EIS_ITEMS = [
   {id:'e5',name:'Shirjakh Mix',price:9.90},
 ];
 
+const KAFFEE_EXTRA = [{key:'hafermilch',label:'Hafermilch',price:0.60}];
+
 const KAFFEE_ITEMS = [
   {id:'k1',name:'Americano',price:3.20},
   {id:'k2',name:'Café Latte',price:3.80},
@@ -540,9 +1462,16 @@ const KAFFEE_ITEMS = [
   {id:'k4',name:'Latte Macchiato',price:3.90},
   {id:'k5',name:'Espresso',price:2.20},
   {id:'k6',name:'Doppelter Espresso',price:3.50},
-  {id:'k7',name:'Eiskaffee',price:6.90,desc:'Mit Vanillecreme.'},
+  {id:'k7',name:'Eiskaffee',price:6.90},
   {id:'k8',name:'Match Latte',price:5.50},
-  {id:'k9',name:'Coold Matcha',price:7.50,flavorLabel:'Sorte',flavorOptions:['Erdbeere','Himbeere','Mango','Maracuja','Peach']},
+].map(it=>({...it, extras:(it.extras||[]).concat(KAFFEE_EXTRA)}));
+
+const MATCHA_ITEMS = [
+  {id:'k9a',name:'Erdbeere',price:7.50},
+  {id:'k9b',name:'Himbeere',price:7.50},
+  {id:'k9c',name:'Mango',price:7.50},
+  {id:'k9d',name:'Maracuja',price:7.50},
+  {id:'k9e',name:'Peach',price:7.50},
 ];
 
 const TEE_ITEMS = [
@@ -552,7 +1481,7 @@ const TEE_ITEMS = [
   {id:'t4',name:'Kamillentee',price:2.90},
   {id:'t5',name:'Frischer Minztee',price:3.50},
   {id:'t6',name:'Ingwer Minze',price:3.90},
-  {id:'t7',name:'Mixtee',price:4.50,desc:'Ingwer, Zitrone, Minze und Honig.'},
+  {id:'t7',name:'Mixtee',price:4.50},
   {id:'t8',name:'Teekanne (für 2 Personen)',
     variants:[
       {key:'mixtee',label:'Frischer Mixtee mit Ingwer, Minze, Zitrone & Honig',price:10.90},
@@ -562,29 +1491,41 @@ const TEE_ITEMS = [
     ]},
 ];
 
-const SOFTDRINKS_ITEMS = [
-  {id:'sd1',name:'Fritz Kola',price:3.60,desc:'0,33 l'},
-  {id:'sd2',name:'Fritz ohne Zucker',price:3.60,desc:'0,33 l'},
-  {id:'sd3',name:'Fritz Limo',price:3.60,desc:'0,33 l',flavorLabel:'Sorte',flavorOptions:['Apfel','Kirsch','Holunder','Orange','Honigmelone']},
-  {id:'sd4',name:'Misch Masch',price:3.60,desc:'0,33 l — Kola, Orange.'},
-  {id:'sd5',name:'Wasser still',price:3.20,desc:'0,33 l'},
-  {id:'sd6',name:'Wasser mit Sprudel',price:3.20,desc:'0,33 l'},
-  {id:'sd7',name:'Apfelschorle',price:4.90,desc:'0,4 l'},
-  {id:'sd8',name:'Rhabarberschorle',price:4.90,desc:'0,4 l'},
-  {id:'sd9',name:'Maracujaschorle',price:4.90,desc:'0,4 l'},
-  {id:'sd10',name:'Kirschschorle',price:4.90,desc:'0,4 l'},
-  {id:'sd11',name:'KiBa',price:4.90,desc:'0,4 l'},
-  {id:'sd12',name:'Ice Tea',price:3.90,desc:'0,33 l',flavorLabel:'Sorte',flavorOptions:['Peach','Lemon','Pomegranate']},
+const FRITZ_ITEMS = [
+  {id:'sd1',name:'Fritz Kola',price:3.60},
+  {id:'sd2',name:'Fritz ohne Zucker',price:3.60},
+  {id:'sd3a',name:'Fritz Limo Apfel',price:3.60},
+  {id:'sd3b',name:'Fritz Limo Kirsch',price:3.60},
+  {id:'sd3c',name:'Fritz Limo Holunder',price:3.60},
+  {id:'sd3d',name:'Fritz Limo Orange',price:3.60},
+  {id:'sd3e',name:'Fritz Limo Honigmelone',price:3.60},
+  {id:'sd4',name:'Misch Masch',price:3.60},
+];
+
+const WASSER_ITEMS = [
+  {id:'sd5',name:'Wasser still',price:3.20},
+  {id:'sd6',name:'Wasser mit Sprudel',price:3.20},
+];
+
+const SCHORLEN_ITEMS = [
+  {id:'sd7',name:'Apfelschorle',price:4.90},
+  {id:'sd8',name:'Rhabarberschorle',price:4.90},
+  {id:'sd9',name:'Maracujaschorle',price:4.90},
+  {id:'sd10',name:'Kirschschorle',price:4.90},
+  {id:'sd11',name:'KiBa',price:4.90},
+  {id:'sd12a',name:'Ice Tea Peach',price:3.90},
+  {id:'sd12b',name:'Ice Tea Lemon',price:3.90},
+  {id:'sd12c',name:'Ice Tea Pomegranate',price:3.90},
 ];
 
 const SAEFTE_ITEMS = [
-  {id:'sa1',name:'Ayran Dogh',price:4.50,desc:'Hausgemachte Dogh: Ayran, Joghurt, Wasser, Minze, Sprudelwasser — 0,4 l.'},
-  {id:'sa2',name:'Multivitamin',price:7.90,desc:'Apfel, Orange, Karotte.'},
+  {id:'sa1',name:'Ayran Dogh',price:4.50},
+  {id:'sa2',name:'Multivitamin',price:7.90},
   {id:'sa3',name:'Apfel',price:6.90},
   {id:'sa4',name:'Orange',price:6.90},
   {id:'sa5',name:'Karotte',price:6.90},
-  {id:'sa6',name:'Wassermelone',price:7.90,desc:'Saisonal.'},
-  {id:'sa7',name:'Honigmelone',price:7.90,desc:'Saisonal.'},
+  {id:'sa6',name:'Wassermelone',price:7.90},
+  {id:'sa7',name:'Honigmelone',price:7.90},
 ];
 
 const SHAKES_ITEMS = [
@@ -599,91 +1540,100 @@ const SHAKES_ITEMS = [
 ];
 
 const ORIENT_ITEMS = [
-  {id:'o1',name:'Majoon',price:9.90,desc:'Datteln, Nussmischung, Banane, Safraneis-Milch.'},
-  {id:'o2',name:'Ab Talebi',price:7.90,desc:'Honigmelonensaft.',extras:[{key:'safraneis',label:'Mit Safraneis',price:0.60}]},
-  {id:'o3',name:'Ab Havij',price:6.90,desc:'Karottensaft.',extras:[{key:'safraneis',label:'Mit Safraneis',price:2.00}]},
-  {id:'o4',name:'Shirmoos',price:7.90,desc:'Bananenshake mit Safraneis.'},
-  {id:'o5',name:'Shir Peste',price:8.90,desc:'Vanilleeis, Safraneis gemischt mit Milch und Pistazien.'},
+  {id:'o1',name:'Majoon',price:9.90},
+  {id:'o2',name:'Ab Talebi',price:7.90,extras:[{key:'safraneis',label:'Mit Safraneis',price:0.60}]},
+  {id:'o3',name:'Ab Havij',price:6.90,extras:[{key:'safraneis',label:'Mit Safraneis',price:2.00}]},
+  {id:'o4',name:'Shirmoos',price:7.90},
+  {id:'o5',name:'Shir Peste',price:8.90},
 ];
 
 const SMOOTHIE_ITEMS = [
-  {id:'sm1',name:'Smoothie',price:7.90,desc:'0,4 l',flavorLabel:'Sorte',flavorOptions:[
-    'Tropic Berry (Ananas & Himbeere)','Mango Tango (Banane, Erdbeere & Mango)','Blue Monkey (Banane & Blaubeeren)','Kiwi Kick (Banane, Kiwi & Apfel)','Red Power (Karotte, Rote Bete & Apfel)'
-  ]},
+  {id:'sm1a',name:'Tropic Berry',price:7.90},
+  {id:'sm1b',name:'Mango Tango',price:7.90},
+  {id:'sm1c',name:'Blue Monkey',price:7.90},
+  {id:'sm1d',name:'Kiwi Kick',price:7.90},
+  {id:'sm1e',name:'Red Power',price:7.90},
 ];
 
 const COCKTAIL_ITEMS = [
-  {id:'cc1',name:'Solero Magic',price:7.90,desc:'0,4 l — Exotischer Maracujasaft trifft auf cremiges Vanilleeis, verfeinert mit Sahne.'},
-  {id:'cc2',name:'Sanfter Engel',price:7.90,desc:'0,4 l — Fruchtiger Orangensaft trifft auf cremiges Vanilleeis, gekrönt mit Sahne.'},
-  {id:'cc3',name:'KiBa',price:7.90,desc:'0,4 l — Bananensaft kombiniert mit Kirsch-Eiscreme, getoppt mit Sahne.'},
+  {id:'cc1',name:'Solero Magic',price:7.90},
+  {id:'cc2',name:'Sanfter Engel',price:7.90},
+  {id:'cc3',name:'KiBa',price:7.90},
 ];
 
-const PASTA_EXTRA = [{key:'ueberbacken',label:'Mit Käse überbacken',price:2.50}];
+const PASTA_EXTRA = [{key:'ueberbacken',label:'Mit Käse',price:2.50}];
 
 const MENU = [
-  { id:'salate', label:'Salat Bowls', kind:'list', items:[
-    { id:'s1', name:'Frische Salat-Bowl', price:10.90,
-      desc:'Eisbergsalat, Rucola, Mais, Oliven, Cherrytomaten, Gurken, rote Zwiebeln, Avocado, Möhren, Rote Bete und Paprika – serviert mit ofenfrischem Brot.',
-      flavorLabel:'Dressing', flavorOptions:['American','Balsamico','Caesar'],
-      extras:[
-        {key:'schafskaese',label:'Schafskäse',price:2.90},
-        {key:'haehnchen',label:'Gebratenes Hähnchenbrustfilet',price:4.50},
-        {key:'thunfisch',label:'Thunfisch',price:4.50},
-        {key:'scampi',label:'Gebratene Scampi',price:5.90},
-      ]}
+  { id:'essen', label:'Essen', kind:'tabs', tabs:[
+    { id:'e-salate', label:'Salat Bowls', items:[
+      { id:'s1', name:'Frische Salat-Bowl', price:10.90,
+        flavorLabel:'Dressing', flavorOptions:['American','Balsamico','Caesar'],
+        extras:[
+          {key:'schafskaese',label:'Schafskäse',price:2.90},
+          {key:'haehnchen',label:'Gebratenes Hähnchenbrustfilet',price:4.50},
+          {key:'thunfisch',label:'Thunfisch',price:4.50},
+          {key:'scampi',label:'Gebratene Scampi',price:5.90},
+        ]}
+    ]},
+    { id:'e-auflauf', label:'Kartoffelauflauf', items:[
+      { id:'a1', name:'Hausgemachter Kartoffelauflauf',
+        variants:[
+          {key:'standard',label:'Standard',price:11.50},
+          {key:'haehnchen',label:'Mit Hähnchen',price:12.90},
+          {key:'haehnchen_brokkoli',label:'Mit Hähnchen & Brokkoli',price:13.50},
+          {key:'garnelen',label:'Mit Garnelen, Brokkoli & Cherrytomaten',price:15.90},
+        ]}
+    ]},
+    { id:'e-pizza', label:'Pizza', items:[
+      {id:'p1',name:'Margarita',price:9.90},
+      {id:'p2',name:'Funghi',price:10.90},
+      {id:'p3',name:'Veggie',price:11.90},
+      {id:'p4',name:'Tuna',price:12.50},
+      {id:'p5',name:'Scampi',price:15.90},
+      {id:'p6',name:'Salami',price:12.90},
+      {id:'p7',name:'Hähnchen',price:12.90},
+      {id:'p8',name:'Djujeh',price:15.90},
+      {id:'p9',name:'Sucuk',price:12.90},
+      {id:'p10',name:'Mozzarella',price:12.90},
+      {id:'p11',name:'4 Seasons',price:14.90},
+      {id:'p12',name:'Spezial',price:13.90},
+      {id:'p13',name:'Pizza Mexico',price:14.90},
+      {id:'p14',name:'Pizza Watani',price:14.50},
+    ]},
+    { id:'e-pasta', label:'Pasta', items:[
+      {id:'pa1',name:'Da Vinci',price:11.50},
+      {id:'pa2',name:'Scampi',price:15.50},
+      {id:'pa3',name:'Spezial',price:12.50},
+      {id:'pa4',name:'Veggi',price:12.90},
+      {id:'pa5',name:'Spicy Chicken',price:12.90},
+      {id:'pa6',name:'Hähnchen',price:12.50},
+      {id:'pa7',name:'Mexicana',price:12.50},
+      {id:'pa8',name:'Funghi',price:12.50},
+      {id:'pa9',name:'Mantu',price:14.90},
+      {id:'pa10',name:'Ashak',price:13.90},
+    ].map(it=>({...it, extras:PASTA_EXTRA}))},
+    { id:'e-crepes', label:'Crêpes', items:CREPES_ITEMS },
+    { id:'e-cheesecake', label:'Cheesecake', items:CHEESECAKE_ITEMS },
+    { id:'e-eis', label:'Eis', items:EIS_ITEMS },
   ]},
-  { id:'auflauf', label:'Kartoffelauflauf', kind:'list', items:[
-    { id:'a1', name:'Hausgemachter Kartoffelauflauf',
-      desc:'Mit Paprika, Champignons, Zwiebeln, Sahnesoße und Gouda-Käse überbacken.',
-      variants:[
-        {key:'standard',label:'Standard',price:11.50},
-        {key:'haehnchen',label:'Mit Hähnchen',price:12.90},
-        {key:'haehnchen_brokkoli',label:'Mit Hähnchen & Brokkoli',price:13.50},
-        {key:'garnelen',label:'Mit Garnelen, Brokkoli & Cherrytomaten',price:15.90},
-      ]}
-  ]},
-  { id:'pizza', label:'Pizza', kind:'list', items:[
-    {id:'p1',name:'Margarita',price:9.90,desc:'Tomatensoße, Käse.'},
-    {id:'p2',name:'Funghi',price:10.90,desc:'Tomatensoße, Käse, Champignons.'},
-    {id:'p3',name:'Veggie',price:11.90,desc:'Tomatensoße, Käse, Saison-Gemüse.'},
-    {id:'p4',name:'Tuna',price:12.50,desc:'Tomatensoße, Käse, Thunfisch, rote Zwiebeln.'},
-    {id:'p5',name:'Scampi',price:15.90,desc:'Tomatensoße, Käse, Paprika, Mais, Scampi, Brokkoli.'},
-    {id:'p6',name:'Salami',price:12.90,desc:'Tomatensoße, Käse, Salami.'},
-    {id:'p7',name:'Hähnchen',price:12.90,desc:'Tomatensoße, Käse, Tomate, Brokkoli, Hähnchenbrustfilet.'},
-    {id:'p8',name:'Djujeh',price:15.90,desc:'Tomatensoße, Käse, Paprika, rote Zwiebeln, Hähnchenbrustfilet – auf persische Art in Safransauce eingelegt.'},
-    {id:'p9',name:'Sucuk',price:12.90,desc:'Tomatensoße, Käse, Sucuk, Oliven, Jalapeños.'},
-    {id:'p10',name:'Mozzarella',price:12.90,desc:'Tomatensoße, Käse, Mozzarella, Cherrytomaten.'},
-    {id:'p11',name:'4 Seasons',price:14.90,desc:'Tomatensoße, Käse, Champignons, Mozzarella, Saison-Gemüse, Salami, Hähnchenbrustfilet, Tomate, Brokkoli.'},
-    {id:'p12',name:'Spezial',price:13.90,desc:'Tomaten-Joghurt-Sauce, Salami, Hähnchenbrustfilet, Mais, Käse, Jalapeños.'},
-    {id:'p13',name:'Pizza Mexico',price:14.90,desc:'Crispy Chicken, Mais, Tomatensoße, Jalapeños, Käse.'},
-    {id:'p14',name:'Pizza Watani',price:14.50,desc:'Mit Zwiebeln, Knoblauch geröstet, gebratenes Rinderhackfleisch, verfeinert mit frischen Zwiebeln, Tomaten und Hähnchenbrustfilet.'},
-  ]},
-  { id:'pasta', label:'Pasta', kind:'list', items:[
-    {id:'pa1',name:'Da Vinci',price:11.50,desc:'Penne, Bolognese, Peperoni, Knoblauch, Sahnesauce.'},
-    {id:'pa2',name:'Scampi',price:15.50,desc:'Penne, Paprika, Knoblauch, Brokkoli, Oliven, Scampi, Sahnesoße.'},
-    {id:'pa3',name:'Spezial',price:12.50,desc:'Penne, Paprika, Knoblauch, Brokkoli, Zwiebeln, Champignons, Hähnchenbrustfilet, Sahne-Tomatensoße.'},
-    {id:'pa4',name:'Veggi',price:12.90,desc:'Penne, Brokkoli, Paprika, Champignons, Sahne-Tomatensoße.'},
-    {id:'pa5',name:'Spicy Chicken',price:12.90,desc:'Spaghetti, Chilli, Hähnchenbrustfilet, Paprika, Knoblauch, Sahne-Tomatensoße.'},
-    {id:'pa6',name:'Hähnchen',price:12.50,desc:'Penne, Hähnchen, Sahne-Tomatensoße.'},
-    {id:'pa7',name:'Mexicana',price:12.50,desc:'Spaghetti, gebratenes Hackfleisch mit Tomatensoße, Mais und Jalapeños.'},
-    {id:'pa8',name:'Funghi',price:12.50,desc:'Spaghetti mit Champignons, Mais, Knoblauch und Sahne-Goudacreme-Soße.'},
-    {id:'pa9',name:'Mantu',price:14.90,desc:'Gedämpfte Teigtaschen gefüllt mit Hackfleisch, Knoblauch, Joghurt, Tomaten-Hackfleischsoße.'},
-    {id:'pa10',name:'Ashak',price:13.90,desc:'Gedämpfte Maultaschen gefüllt mit Frühlingslauch, Knoblauch, Tomaten-Joghurtsauce (vegetarisch).'},
-  ].map(it=>({...it, extras:PASTA_EXTRA}))},
-  { id:'desserts', label:'Desserts', kind:'tabs', tabs:[
-    { id:'d-crepes', label:'Crêpes', items:CREPES_ITEMS },
-    { id:'d-cheesecake', label:'Cheesecake', items:CHEESECAKE_ITEMS },
-    { id:'d-eis', label:'Eis', items:EIS_ITEMS },
-  ]},
-  { id:'getraenke', label:'Getränke', kind:'tabs', tabs:[
+  { id:'trinken', label:'Trinken', kind:'tabs', tabs:[
+    { id:'g-kaffeetee', label:'Kaffee & Tee', groups:[
+        {label:'Kaffee', items:KAFFEE_ITEMS},
+        {label:'Tee', items:TEE_ITEMS},
+    ]},
+    { id:'g-fritz', label:'Fritz', items:FRITZ_ITEMS },
+    { id:'g-wasser', label:'Wasser', items:WASSER_ITEMS },
     { id:'g-saefte', label:'Säfte & Ayran', items:SAEFTE_ITEMS },
-    { id:'g-shakes', label:'Milchshakes', items:SHAKES_ITEMS },
-    { id:'g-orient', label:'Orient Shakes', items:ORIENT_ITEMS },
-    { id:'g-smoothies', label:'Smoothies', items:SMOOTHIE_ITEMS },
-    { id:'g-cocktails', label:'Crème & Fruits', items:COCKTAIL_ITEMS },
-    { id:'g-soft', label:'Softdrinks', items:SOFTDRINKS_ITEMS },
-    { id:'g-kaffee', label:'Kaffee', items:KAFFEE_ITEMS },
-    { id:'g-tee', label:'Tee', items:TEE_ITEMS },
+    { id:'g-kalt', label:'Schorlen & Ice Tea', items:SCHORLEN_ITEMS },
+    { id:'g-shakes', label:'Milchshakes & Cremes', groups:[
+        {label:'Milchshakes', items:SHAKES_ITEMS},
+        {label:'Crème & Fruits', items:COCKTAIL_ITEMS},
+    ]},
+    { id:'g-matcha', label:'Matcha', items:MATCHA_ITEMS },
+    { id:'g-orient', label:'Orient & Smoothies', groups:[
+        {label:'Orient Shakes', items:ORIENT_ITEMS},
+        {label:'Smoothies', items:SMOOTHIE_ITEMS},
+    ]},
   ]},
 ];
 
@@ -781,13 +1731,18 @@ function renderItemCard(item){
     const row = document.createElement('div');
     row.className = 'opt-row variant-list';
     item.variants.forEach(v=>{
-      const lbl = document.createElement('label');
-      lbl.className = 'variant-chip';
-      lbl.innerHTML = `<span><input type="radio" name="variant-${item.id}" value="${v.key}" ${v.key===st.variant?'checked':''}> ${v.label}</span><span class="v-price">${fmt(v.price)}</span>`;
-      lbl.querySelector('input').addEventListener('change', ()=>{
-        st.variant = v.key; refreshItem(item); refreshCart();
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'variant-btn' + (v.key===st.variant ? ' active' : '');
+      btn.innerHTML = `<span class="vb-label">${v.label}</span><span class="vb-price">${fmt(v.price)}</span>`;
+      btn.addEventListener('click', ()=>{
+        st.variant = v.key;
+        row.querySelectorAll('.variant-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        refreshItem(item);
+        refreshCart();
       });
-      row.appendChild(lbl);
+      row.appendChild(btn);
     });
     card.appendChild(row);
   }
@@ -799,16 +1754,22 @@ function renderItemCard(item){
     lbl.className = 'opt-label';
     lbl.textContent = item.flavorLabel || 'Auswahl';
     row.appendChild(lbl);
-    const sel = document.createElement('select');
-    sel.className = 'opt-select';
+    const btnRow = document.createElement('div');
+    btnRow.className = 'flavor-row';
     item.flavorOptions.forEach(f=>{
-      const o = document.createElement('option');
-      o.value = f; o.textContent = f;
-      sel.appendChild(o);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'flavor-btn' + (f===st.flavor ? ' active' : '');
+      btn.textContent = f;
+      btn.addEventListener('click', ()=>{
+        st.flavor = f;
+        btnRow.querySelectorAll('.flavor-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        refreshCart();
+      });
+      btnRow.appendChild(btn);
     });
-    sel.value = st.flavor;
-    sel.addEventListener('change', ()=>{ st.flavor = sel.value; refreshCart(); });
-    row.appendChild(sel);
+    row.appendChild(btnRow);
     card.appendChild(row);
   }
 
@@ -824,9 +1785,12 @@ function renderItemCard(item){
     item.extras.forEach(ex=>{
       const chip = document.createElement('label');
       chip.className = 'extra-chip';
-      chip.innerHTML = `<span><input type="checkbox" data-key="${ex.key}"> ${ex.label}</span><span class="ex-price">+ ${fmt(ex.price)}</span>`;
-      chip.querySelector('input').addEventListener('change', (e)=>{
-        st.extras[ex.key] = e.target.checked; refreshItem(item); refreshCart();
+      chip.innerHTML = `<span class="ex-label"><input type="checkbox" data-key="${ex.key}"> ${ex.label}</span><span class="ex-price">+ ${fmt(ex.price)}</span>`;
+      const cb = chip.querySelector('input');
+      cb.addEventListener('change', (e)=>{
+        st.extras[ex.key] = e.target.checked;
+        chip.classList.toggle('active', e.target.checked);
+        refreshItem(item); refreshCart();
       });
       list.appendChild(chip);
     });
@@ -854,6 +1818,10 @@ function renderItemCard(item){
   qtyRow.appendChild(lineTotal);
   card.appendChild(qtyRow);
 
+  if(item.flavorOptions || item.variants){
+    card.classList.add('item-wide');
+  }
+
   return card;
 }
 
@@ -868,19 +1836,30 @@ function refreshItem(item){
 /* ============ RENDER SECTIONS ============ */
 const menuRoot = document.getElementById('menuRoot');
 const catnavInner = document.getElementById('catnavInner');
+const catPills = [];
+const catSections = [];
 
-MENU.forEach(entry=>{
+let currentCatIdx = 0;
+function showCategory(idx){
+  currentCatIdx = idx;
+  catSections.forEach((s,i)=> s.style.display = (i===idx ? '' : 'none'));
+  catPills.forEach((p,i)=> p.classList.toggle('active', i===idx));
+  document.querySelector('nav.catnav').scrollIntoView();
+}
+
+MENU.forEach((entry, catIdx)=>{
   const pill = document.createElement('button');
-  pill.className = 'cat-pill';
+  pill.className = 'cat-pill' + (catIdx===0 ? ' active' : '');
   pill.textContent = entry.label;
-  pill.addEventListener('click', ()=>{
-    document.getElementById('cat-'+entry.id).scrollIntoView({behavior:'smooth', block:'start'});
-  });
+  pill.type = 'button';
+  pill.addEventListener('click', ()=> showCategory(catIdx));
   catnavInner.appendChild(pill);
+  catPills.push(pill);
 
   const section = document.createElement('section');
   section.className = 'cat';
   section.id = 'cat-'+entry.id;
+  if(catIdx!==0) section.style.display = 'none';
 
   const h2 = document.createElement('h2');
   h2.textContent = entry.label;
@@ -890,7 +1869,10 @@ MENU.forEach(entry=>{
   section.appendChild(hr);
 
   if(entry.kind === 'list'){
-    entry.items.forEach(item=> section.appendChild(renderItemCard(item)));
+    const grid = document.createElement('div');
+    grid.className = 'items-grid';
+    entry.items.forEach(item=> grid.appendChild(renderItemCard(item)));
+    section.appendChild(grid);
   } else if(entry.kind === 'tabs'){
     const tabRow = document.createElement('div');
     tabRow.className = 'subtabs';
@@ -907,14 +1889,20 @@ MENU.forEach(entry=>{
       if(idx!==0) panel.style.display = 'none';
 
       if(tab.items){
-        tab.items.forEach(item=> panel.appendChild(renderItemCard(item)));
+        const grid = document.createElement('div');
+        grid.className = 'items-grid';
+        tab.items.forEach(item=> grid.appendChild(renderItemCard(item)));
+        panel.appendChild(grid);
       } else if(tab.groups){
         tab.groups.forEach(g=>{
           const gh = document.createElement('div');
           gh.className = 'subgroup-heading';
           gh.textContent = g.label;
           panel.appendChild(gh);
-          g.items.forEach(item=> panel.appendChild(renderItemCard(item)));
+          const grid = document.createElement('div');
+          grid.className = 'items-grid';
+          g.items.forEach(item=> grid.appendChild(renderItemCard(item)));
+          panel.appendChild(grid);
         });
       }
       panels.push(panel);
@@ -931,25 +1919,14 @@ MENU.forEach(entry=>{
   }
 
   menuRoot.appendChild(section);
+  catSections.push(section);
 });
 
 forEachItem(item=>refreshItem(item));
 
-/* active pill on scroll */
-const pills = Array.from(catnavInner.children);
-const sections = MENU.map(e=>document.getElementById('cat-'+e.id));
-function updateActivePill(){
-  let idx = 0;
-  const y = window.scrollY + 90;
-  sections.forEach((s,i)=>{ if(s.offsetTop <= y) idx = i; });
-  pills.forEach((p,i)=>p.classList.toggle('active', i===idx));
-}
-window.addEventListener('scroll', updateActivePill, {passive:true});
-updateActivePill();
-
 /* ============ CART / SUMMARY ============ */
 const tableSel = document.getElementById('tableSel');
-for(let i=1;i<=20;i++){
+for(let i=1;i<=23;i++){
   const o = document.createElement('option');
   o.value = i; o.textContent = 'Tisch ' + i;
   tableSel.appendChild(o);
@@ -1116,10 +2093,13 @@ function clearCartItems(){
 
     const card = document.getElementById('item-'+item.id);
     if(card){
-      card.querySelectorAll('.extra-chip input[type=checkbox]').forEach(cb=>cb.checked=false);
-      card.querySelectorAll('.variant-chip input[type=radio]').forEach((rb,i)=>rb.checked = i===0);
-      const sel = card.querySelector('.opt-select');
-      if(sel) sel.value = item.flavorOptions[0];
+      card.querySelectorAll('.extra-chip').forEach(chip=>{
+        chip.classList.remove('active');
+        const cb = chip.querySelector('input[type=checkbox]');
+        if(cb) cb.checked = false;
+      });
+      card.querySelectorAll('.variant-btn').forEach((b,i)=>b.classList.toggle('active', i===0));
+      card.querySelectorAll('.flavor-btn').forEach((b,i)=>b.classList.toggle('active', i===0));
     }
     refreshItem(item);
   });
@@ -1149,6 +2129,35 @@ document.getElementById('newOrderBtn').addEventListener('click', ()=>{
   tableSel.selectedIndex = 0;
   closeCart();
 });
+
+/* ---- swipe between categories (left = next, right = previous) ---- */
+(function(){
+  let startX = 0, startY = 0, tracking = false;
+  const SWIPE_MIN_DIST = 60;      // minimum horizontal distance in px
+  const SWIPE_MAX_OFFAXIS = 60;   // max vertical drift allowed to still count as a swipe
+
+  menuRoot.addEventListener('touchstart', (e)=>{
+    if(e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    tracking = true;
+  }, {passive:true});
+
+  menuRoot.addEventListener('touchend', (e)=>{
+    if(!tracking) return;
+    tracking = false;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - startX;
+    const dy = touch.clientY - startY;
+    if(Math.abs(dx) < SWIPE_MIN_DIST || Math.abs(dy) > SWIPE_MAX_OFFAXIS) return;
+
+    if(dx < 0 && currentCatIdx < MENU.length-1){
+      showCategory(currentCatIdx+1);   // swipe left -> next category
+    } else if(dx > 0 && currentCatIdx > 0){
+      showCategory(currentCatIdx-1);   // swipe right -> previous category
+    }
+  }, {passive:true});
+})();
 </script>
 
 </body>
