@@ -250,7 +250,7 @@ nav.catnav{
   white-space:nowrap;
   cursor:pointer;
 
-  opacity:.72;
+  opacity:.4;
 
   box-shadow:0 2px 5px rgba(42,32,24,.12);
 
@@ -262,9 +262,10 @@ nav.catnav{
 
 .cat-pill.active{
   opacity:1;
+  transform:scale(1.08);
   box-shadow:
-    0 0 0 2px var(--ink),
-    0 2px 6px rgba(42,32,24,.15);
+    0 0 0 3px var(--ink),
+    0 4px 10px rgba(42,32,24,.25);
 }
 
 .cat-pill:active{
@@ -1152,36 +1153,6 @@ section.cat .cat-hr{
    FOOTER
    ========================================================= */
 
-footer{
-  width:min(100% - 24px,640px);
-  margin:26px auto 0;
-  padding:0;
-}
-
-details.allergens{
-  padding-top:12px;
-
-  border-top:1px solid var(--line);
-}
-
-details.allergens summary{
-  color:var(--ink-soft);
-
-  font-size:13px;
-  font-weight:500;
-
-  cursor:pointer;
-}
-
-details.allergens .al-body{
-  margin-top:8px;
-
-  color:var(--muted);
-
-  font-size:11.5px;
-  line-height:1.55;
-}
-
 
 /* =========================================================
    KLEINE HANDYS
@@ -1404,17 +1375,6 @@ details.allergens .al-body{
   </div>
 </div>
 
-<footer>
-  <details class="allergens">
-    <summary>Allergene &amp; Zusatzstoffe</summary>
-    <div class="al-body">
-      A = glutenhaltiges Getreide (Weizen¹, Roggen², Gerste³, Hafer⁴, Dinkel⁵, Kamut⁶, Hybridstämme⁷) · B = Krebstiere · C = Eier · D = Fisch · E = Erdnüsse · F = Soja · G = Milch und Milchprodukte (inkl. Laktose) · H = Schalenfrüchte (Mandel¹, Haselnuss², Walnuss³, Cashew⁴, Pecannuss⁵, Paranuss⁶, Pistazie⁷, Macadamianuss⁸, Queenslandnuss⁹) · I = Sellerie · J = Senf · K = Sesamsamen · L = Schwefeldioxid/Sulfite &gt; 10&nbsp;mg/kg · M = Lupinen · N = Weichtiere
-      <br><br>
-      Zusatzstoffe: 1 = mit Konservierungsstoff · 2 = mit Geschmacksverstärker · 3 = mit Antioxidationsmittel · 4 = mit Farbstoff · 5 = mit Phosphat · 6 = mit Süßungsmittel · 7 = koffeinhaltig · 8 = chininhaltig · 9 = geschwärzt · 10 = enthält Phenylalaninquelle · 11 = enthält Sulfite
-    </div>
-  </details>
-</footer>
-
 <script>
 /* ============ DATA ============ */
 
@@ -1434,15 +1394,9 @@ const CREPES_ITEMS = [
 ];
 
 const CHEESECAKE_ITEMS = [
-  {id:'ch1',name:'Raffaello',price:5.50},
-  {id:'ch2',name:'Karamell-Lotus',price:5.50},
-  {id:'ch3',name:'Kinder Maxi King',price:5.50},
-  {id:'ch4',name:'Kinder Bueno',price:5.50},
-  {id:'ch5',name:'Oreo',price:5.50},
-  {id:'ch6',name:'Blueberry',price:5.50},
-  {id:'ch7',name:'Raspberry',price:5.50},
-  {id:'ch8',name:'Strawberry',price:5.50},
-  {id:'ch9',name:'Pistazien-Safran-Nuss',price:5.50},
+  { id:'ch1', name:'Cheesecake', price:5.50, flavorLabel:'Sorte', flavorOptions:[
+    'Raffaello','Karamell-Lotus','Kinder Maxi King','Kinder Bueno','Oreo','Blueberry','Raspberry','Strawberry','Pistazien-Safran-Nuss'
+  ]},
 ];
 
 const EIS_ITEMS = [
@@ -1456,32 +1410,35 @@ const EIS_ITEMS = [
 const KAFFEE_EXTRA = [{key:'hafermilch',label:'Hafermilch',price:0.60}];
 
 const KAFFEE_ITEMS = [
-  {id:'k1',name:'Americano',price:3.20},
-  {id:'k2',name:'Café Latte',price:3.80},
-  {id:'k3',name:'Cappuccino',price:3.90},
-  {id:'k4',name:'Latte Macchiato',price:3.90},
-  {id:'k5',name:'Espresso',price:2.20},
-  {id:'k6',name:'Doppelter Espresso',price:3.50},
-  {id:'k7',name:'Eiskaffee',price:6.90},
-  {id:'k8',name:'Match Latte',price:5.50},
-].map(it=>({...it, extras:(it.extras||[]).concat(KAFFEE_EXTRA)}));
+  { id:'k1', name:'Kaffee',
+    variants:[
+      {key:'americano',label:'Americano',price:3.20},
+      {key:'cafelatte',label:'Café Latte',price:3.80},
+      {key:'cappuccino',label:'Cappuccino',price:3.90},
+      {key:'lattemacchiato',label:'Latte Macchiato',price:3.90},
+      {key:'espresso',label:'Espresso',price:2.20},
+      {key:'doppelterespresso',label:'Doppelter Espresso',price:3.50},
+      {key:'eiskaffee',label:'Eiskaffee',price:6.90},
+      {key:'matchlatte',label:'Match Latte',price:5.50},
+    ],
+    extras:KAFFEE_EXTRA },
+];
 
 const MATCHA_ITEMS = [
-  {id:'k9a',name:'Erdbeere',price:7.50},
-  {id:'k9b',name:'Himbeere',price:7.50},
-  {id:'k9c',name:'Mango',price:7.50},
-  {id:'k9d',name:'Maracuja',price:7.50},
-  {id:'k9e',name:'Peach',price:7.50},
+  {id:'k9',name:'Coold Matcha',price:7.50,flavorLabel:'Sorte',flavorOptions:['Erdbeere','Himbeere','Mango','Maracuja','Peach']},
 ];
 
 const TEE_ITEMS = [
-  {id:'t1',name:'Grüntee',price:2.90},
-  {id:'t2',name:'Schwarztee',price:2.90},
-  {id:'t3',name:'Früchtetee',price:2.90},
-  {id:'t4',name:'Kamillentee',price:2.90},
-  {id:'t5',name:'Frischer Minztee',price:3.50},
-  {id:'t6',name:'Ingwer Minze',price:3.90},
-  {id:'t7',name:'Mixtee',price:4.50},
+  { id:'t1', name:'Tee',
+    variants:[
+      {key:'gruentee',label:'Grüntee',price:2.90},
+      {key:'schwarztee',label:'Schwarztee',price:2.90},
+      {key:'fruechtetee',label:'Früchtetee',price:2.90},
+      {key:'kamillentee',label:'Kamillentee',price:2.90},
+      {key:'minztee',label:'Frischer Minztee',price:3.50},
+      {key:'ingwerminze',label:'Ingwer Minze',price:3.90},
+      {key:'mixtee',label:'Mixtee',price:4.50},
+    ]},
   {id:'t8',name:'Teekanne (für 2 Personen)',
     variants:[
       {key:'mixtee',label:'Frischer Mixtee mit Ingwer, Minze, Zitrone & Honig',price:10.90},
@@ -1492,73 +1449,68 @@ const TEE_ITEMS = [
 ];
 
 const FRITZ_ITEMS = [
-  {id:'sd1',name:'Fritz Kola',price:3.60},
-  {id:'sd2',name:'Fritz ohne Zucker',price:3.60},
-  {id:'sd3a',name:'Fritz Limo Apfel',price:3.60},
-  {id:'sd3b',name:'Fritz Limo Kirsch',price:3.60},
-  {id:'sd3c',name:'Fritz Limo Holunder',price:3.60},
-  {id:'sd3d',name:'Fritz Limo Orange',price:3.60},
-  {id:'sd3e',name:'Fritz Limo Honigmelone',price:3.60},
-  {id:'sd4',name:'Misch Masch',price:3.60},
+  { id:'sd1', name:'Fritz', flavorLabel:'Sorte', price:3.60, flavorOptions:[
+    'Kola','Ohne Zucker','Limo Apfel','Limo Kirsch','Limo Holunder','Limo Orange','Limo Honigmelone','Misch Masch'
+  ]},
 ];
 
 const WASSER_ITEMS = [
-  {id:'sd5',name:'Wasser still',price:3.20},
-  {id:'sd6',name:'Wasser mit Sprudel',price:3.20},
+  {id:'sd5',name:'Wasser',price:3.20,flavorLabel:'Sorte',flavorOptions:['Still','Mit Sprudel']},
 ];
 
 const SCHORLEN_ITEMS = [
-  {id:'sd7',name:'Apfelschorle',price:4.90},
-  {id:'sd8',name:'Rhabarberschorle',price:4.90},
-  {id:'sd9',name:'Maracujaschorle',price:4.90},
-  {id:'sd10',name:'Kirschschorle',price:4.90},
-  {id:'sd11',name:'KiBa',price:4.90},
-  {id:'sd12a',name:'Ice Tea Peach',price:3.90},
-  {id:'sd12b',name:'Ice Tea Lemon',price:3.90},
-  {id:'sd12c',name:'Ice Tea Pomegranate',price:3.90},
+  {id:'sd7',name:'Schorle',price:4.90,flavorLabel:'Sorte',flavorOptions:['Apfel','Rhabarber','Maracuja','Kirsch','KiBa']},
+  {id:'sd12',name:'Ice Tea',price:3.90,flavorLabel:'Sorte',flavorOptions:['Peach','Lemon','Pomegranate']},
 ];
 
 const SAEFTE_ITEMS = [
-  {id:'sa1',name:'Ayran Dogh',price:4.50},
-  {id:'sa2',name:'Multivitamin',price:7.90},
-  {id:'sa3',name:'Apfel',price:6.90},
-  {id:'sa4',name:'Orange',price:6.90},
-  {id:'sa5',name:'Karotte',price:6.90},
-  {id:'sa6',name:'Wassermelone',price:7.90},
-  {id:'sa7',name:'Honigmelone',price:7.90},
+  { id:'sa1', name:'Säfte & Ayran',
+    variants:[
+      {key:'ayran',label:'Ayran Dogh',price:4.50},
+      {key:'apfel',label:'Apfel',price:6.90},
+      {key:'orange',label:'Orange',price:6.90},
+      {key:'karotte',label:'Karotte',price:6.90},
+      {key:'multivitamin',label:'Multivitamin',price:7.90},
+      {key:'wassermelone',label:'Wassermelone',price:7.90},
+      {key:'honigmelone',label:'Honigmelone',price:7.90},
+    ]},
 ];
 
 const SHAKES_ITEMS = [
-  {id:'m1',name:'Maxi King',price:7.90},
-  {id:'m2',name:'Kinder Bueno',price:7.90},
-  {id:'m3',name:'Oreo',price:7.90},
-  {id:'m4',name:'Rafaello',price:7.90},
-  {id:'m5',name:'Erdbeere',price:7.90},
-  {id:'m6',name:'Banane',price:7.90},
-  {id:'m7',name:'Pistazien',price:8.90},
-  {id:'m8',name:'Lotus',price:7.90},
+  { id:'m1', name:'Milchshake',
+    variants:[
+      {key:'maxiking',label:'Maxi King',price:7.90},
+      {key:'kinderbueno',label:'Kinder Bueno',price:7.90},
+      {key:'oreo',label:'Oreo',price:7.90},
+      {key:'rafaello',label:'Rafaello',price:7.90},
+      {key:'erdbeere',label:'Erdbeere',price:7.90},
+      {key:'banane',label:'Banane',price:7.90},
+      {key:'pistazien',label:'Pistazien',price:8.90},
+      {key:'lotus',label:'Lotus',price:7.90},
+    ]},
 ];
 
 const ORIENT_ITEMS = [
-  {id:'o1',name:'Majoon',price:9.90},
-  {id:'o2',name:'Ab Talebi',price:7.90,extras:[{key:'safraneis',label:'Mit Safraneis',price:0.60}]},
-  {id:'o3',name:'Ab Havij',price:6.90,extras:[{key:'safraneis',label:'Mit Safraneis',price:2.00}]},
-  {id:'o4',name:'Shirmoos',price:7.90},
-  {id:'o5',name:'Shir Peste',price:8.90},
+  { id:'o1', name:'Orient Shake',
+    variants:[
+      {key:'majoon',label:'Majoon',price:9.90},
+      {key:'abtalebi',label:'Ab Talebi',price:7.90},
+      {key:'abtalebisafran',label:'Ab Talebi mit Safraneis',price:8.50},
+      {key:'abhavij',label:'Ab Havij',price:6.90},
+      {key:'abhavijsafran',label:'Ab Havij mit Safraneis',price:8.90},
+      {key:'shirmoos',label:'Shirmoos',price:7.90},
+      {key:'shirpeste',label:'Shir Peste',price:8.90},
+    ]},
 ];
 
 const SMOOTHIE_ITEMS = [
-  {id:'sm1a',name:'Tropic Berry',price:7.90},
-  {id:'sm1b',name:'Mango Tango',price:7.90},
-  {id:'sm1c',name:'Blue Monkey',price:7.90},
-  {id:'sm1d',name:'Kiwi Kick',price:7.90},
-  {id:'sm1e',name:'Red Power',price:7.90},
+  {id:'sm1',name:'Smoothie',price:7.90,flavorLabel:'Sorte',flavorOptions:[
+    'Tropic Berry','Mango Tango','Blue Monkey','Kiwi Kick','Red Power'
+  ]},
 ];
 
 const COCKTAIL_ITEMS = [
-  {id:'cc1',name:'Solero Magic',price:7.90},
-  {id:'cc2',name:'Sanfter Engel',price:7.90},
-  {id:'cc3',name:'KiBa',price:7.90},
+  {id:'cc1',name:'Crème & Fruits',price:7.90,flavorLabel:'Sorte',flavorOptions:['Solero Magic','Sanfter Engel','KiBa']},
 ];
 
 const PASTA_EXTRA = [{key:'ueberbacken',label:'Mit Käse',price:2.50}];
@@ -1585,33 +1537,39 @@ const MENU = [
         ]}
     ]},
     { id:'e-pizza', label:'Pizza', items:[
-      {id:'p1',name:'Margarita',price:9.90},
-      {id:'p2',name:'Funghi',price:10.90},
-      {id:'p3',name:'Veggie',price:11.90},
-      {id:'p4',name:'Tuna',price:12.50},
-      {id:'p5',name:'Scampi',price:15.90},
-      {id:'p6',name:'Salami',price:12.90},
-      {id:'p7',name:'Hähnchen',price:12.90},
-      {id:'p8',name:'Djujeh',price:15.90},
-      {id:'p9',name:'Sucuk',price:12.90},
-      {id:'p10',name:'Mozzarella',price:12.90},
-      {id:'p11',name:'4 Seasons',price:14.90},
-      {id:'p12',name:'Spezial',price:13.90},
-      {id:'p13',name:'Pizza Mexico',price:14.90},
-      {id:'p14',name:'Pizza Watani',price:14.50},
+      { id:'p1', name:'Pizza', variants:[
+        {key:'margarita',label:'Margarita',price:9.90},
+        {key:'funghi',label:'Funghi',price:10.90},
+        {key:'veggie',label:'Veggie',price:11.90},
+        {key:'tuna',label:'Tuna',price:12.50},
+        {key:'scampi',label:'Scampi',price:15.90},
+        {key:'salami',label:'Salami',price:12.90},
+        {key:'haehnchen',label:'Hähnchen',price:12.90},
+        {key:'djujeh',label:'Djujeh',price:15.90},
+        {key:'sucuk',label:'Sucuk',price:12.90},
+        {key:'mozzarella',label:'Mozzarella',price:12.90},
+        {key:'4seasons',label:'4 Seasons',price:14.90},
+        {key:'spezial',label:'Spezial',price:13.90},
+        {key:'mexico',label:'Pizza Mexico',price:14.90},
+        {key:'watani',label:'Pizza Watani',price:14.50},
+      ]},
     ]},
     { id:'e-pasta', label:'Pasta', items:[
-      {id:'pa1',name:'Da Vinci',price:11.50},
-      {id:'pa2',name:'Scampi',price:15.50},
-      {id:'pa3',name:'Spezial',price:12.50},
-      {id:'pa4',name:'Veggi',price:12.90},
-      {id:'pa5',name:'Spicy Chicken',price:12.90},
-      {id:'pa6',name:'Hähnchen',price:12.50},
-      {id:'pa7',name:'Mexicana',price:12.50},
-      {id:'pa8',name:'Funghi',price:12.50},
-      {id:'pa9',name:'Mantu',price:14.90},
-      {id:'pa10',name:'Ashak',price:13.90},
-    ].map(it=>({...it, extras:PASTA_EXTRA}))},
+      { id:'pa1', name:'Pasta',
+        variants:[
+          {key:'davinci',label:'Da Vinci',price:11.50},
+          {key:'scampi',label:'Scampi',price:15.50},
+          {key:'spezial',label:'Spezial',price:12.50},
+          {key:'veggi',label:'Veggi',price:12.90},
+          {key:'spicychicken',label:'Spicy Chicken',price:12.90},
+          {key:'haehnchen',label:'Hähnchen',price:12.50},
+          {key:'mexicana',label:'Mexicana',price:12.50},
+          {key:'funghi',label:'Funghi',price:12.50},
+          {key:'mantu',label:'Mantu',price:14.90},
+          {key:'ashak',label:'Ashak',price:13.90},
+        ],
+        extras:PASTA_EXTRA },
+    ]},
     { id:'e-crepes', label:'Crêpes', items:CREPES_ITEMS },
     { id:'e-cheesecake', label:'Cheesecake', items:CHEESECAKE_ITEMS },
     { id:'e-eis', label:'Eis', items:EIS_ITEMS },
@@ -1639,23 +1597,44 @@ const MENU = [
 
 /* ============ STATE ============ */
 const state = {};
+function defaultConfig(item){
+  return {
+    extras:{},
+    variant: item.variants ? item.variants[0].key : null,
+    flavor: item.flavorOptions ? item.flavorOptions[0] : null,
+  };
+}
 function getState(item){
   if(!state[item.id]){
     state[item.id] = {
-      qty:0,
-      extras:{},
-      variant: item.variants ? item.variants[0].key : null,
-      flavor: item.flavorOptions ? item.flavorOptions[0] : null,
+      current: defaultConfig(item),
+      lines: {}, // configKey -> {qty, extras, variant, flavor}
     };
   }
   return state[item.id];
 }
+function configKey(item, cfg){
+  const parts = [];
+  if(item.variants) parts.push('v:'+cfg.variant);
+  if(item.flavorOptions) parts.push('f:'+cfg.flavor);
+  if(item.extras) parts.push('e:'+item.extras.filter(ex=>cfg.extras[ex.key]).map(ex=>ex.key).sort().join(','));
+  return parts.join('|') || 'default';
+}
 function fmt(n){ return n.toFixed(2).replace('.', ',') + ' €'; }
-function unitPrice(item, st){
-  let base = item.variants ? item.variants.find(v=>v.key===st.variant).price : item.price;
+function unitPriceForConfig(item, cfg){
+  let base = item.variants ? item.variants.find(v=>v.key===cfg.variant).price : item.price;
   let extrasSum = 0;
-  if(item.extras) item.extras.forEach(e=>{ if(st.extras[e.key]) extrasSum += e.price; });
+  if(item.extras) item.extras.forEach(e=>{ if(cfg.extras[e.key]) extrasSum += e.price; });
   return base + extrasSum;
+}
+function currentLine(item){
+  const st = getState(item);
+  const key = configKey(item, st.current);
+  return st.lines[key] || null;
+}
+function displayedQty(item){
+  const l = currentLine(item);
+  return l ? l.qty : 0;
 }
 
 /* traverse every item in the whole menu, regardless of nesting */
@@ -1733,10 +1712,10 @@ function renderItemCard(item){
     item.variants.forEach(v=>{
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'variant-btn' + (v.key===st.variant ? ' active' : '');
+      btn.className = 'variant-btn' + (v.key===st.current.variant ? ' active' : '');
       btn.innerHTML = `<span class="vb-label">${v.label}</span><span class="vb-price">${fmt(v.price)}</span>`;
       btn.addEventListener('click', ()=>{
-        st.variant = v.key;
+        st.current.variant = v.key;
         row.querySelectorAll('.variant-btn').forEach(b=>b.classList.remove('active'));
         btn.classList.add('active');
         refreshItem(item);
@@ -1759,12 +1738,13 @@ function renderItemCard(item){
     item.flavorOptions.forEach(f=>{
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'flavor-btn' + (f===st.flavor ? ' active' : '');
+      btn.className = 'flavor-btn' + (f===st.current.flavor ? ' active' : '');
       btn.textContent = f;
       btn.addEventListener('click', ()=>{
-        st.flavor = f;
+        st.current.flavor = f;
         btnRow.querySelectorAll('.flavor-btn').forEach(b=>b.classList.remove('active'));
         btn.classList.add('active');
+        refreshItem(item);
         refreshCart();
       });
       btnRow.appendChild(btn);
@@ -1788,7 +1768,7 @@ function renderItemCard(item){
       chip.innerHTML = `<span class="ex-label"><input type="checkbox" data-key="${ex.key}"> ${ex.label}</span><span class="ex-price">+ ${fmt(ex.price)}</span>`;
       const cb = chip.querySelector('input');
       cb.addEventListener('change', (e)=>{
-        st.extras[ex.key] = e.target.checked;
+        st.current.extras[ex.key] = e.target.checked;
         chip.classList.toggle('active', e.target.checked);
         refreshItem(item); refreshCart();
       });
@@ -1808,8 +1788,30 @@ function renderItemCard(item){
   val.className = 'qty-val'; val.id = 'qty-'+item.id; val.textContent = '0';
   const plus = document.createElement('button');
   plus.className = 'qty-btn'; plus.textContent = '+'; plus.type='button';
-  minus.addEventListener('click', ()=>{ st.qty = Math.max(0, st.qty-1); refreshItem(item); refreshCart(); });
-  plus.addEventListener('click', ()=>{ st.qty += 1; refreshItem(item); refreshCart(); });
+  minus.addEventListener('click', ()=>{
+    const l = currentLine(item);
+    if(l){
+      l.qty = Math.max(0, l.qty-1);
+      if(l.qty===0){
+        const key = configKey(item, st.current);
+        delete st.lines[key];
+      }
+    }
+    refreshItem(item); refreshCart();
+  });
+  plus.addEventListener('click', ()=>{
+    const key = configKey(item, st.current);
+    if(!st.lines[key]){
+      st.lines[key] = {
+        qty:0,
+        extras:{...st.current.extras},
+        variant:st.current.variant,
+        flavor:st.current.flavor,
+      };
+    }
+    st.lines[key].qty += 1;
+    refreshItem(item); refreshCart();
+  });
   ctrl.appendChild(minus); ctrl.appendChild(val); ctrl.appendChild(plus);
   qtyRow.appendChild(ctrl);
   const lineTotal = document.createElement('div');
@@ -1827,10 +1829,11 @@ function renderItemCard(item){
 
 function refreshItem(item){
   const st = getState(item);
-  const up = unitPrice(item, st);
+  const up = unitPriceForConfig(item, st.current);
+  const qty = displayedQty(item);
   document.getElementById('price-'+item.id).textContent = fmt(up);
-  document.getElementById('qty-'+item.id).textContent = st.qty;
-  document.getElementById('linetotal-'+item.id).textContent = st.qty>0 ? fmt(up*st.qty) : '';
+  document.getElementById('qty-'+item.id).textContent = qty;
+  document.getElementById('linetotal-'+item.id).textContent = qty>0 ? fmt(up*qty) : '';
 }
 
 /* ============ RENDER SECTIONS ============ */
@@ -1844,7 +1847,7 @@ function showCategory(idx){
   currentCatIdx = idx;
   catSections.forEach((s,i)=> s.style.display = (i===idx ? '' : 'none'));
   catPills.forEach((p,i)=> p.classList.toggle('active', i===idx));
-  document.querySelector('nav.catnav').scrollIntoView();
+  window.scrollTo(0, 0);
 }
 
 MENU.forEach((entry, catIdx)=>{
@@ -1912,6 +1915,7 @@ MENU.forEach((entry, catIdx)=>{
         btn.classList.add('active');
         panels.forEach(p=>p.style.display='none');
         panel.style.display='';
+        window.scrollTo(0, 0);
       });
     });
     section.appendChild(tabRow);
@@ -1926,6 +1930,12 @@ forEachItem(item=>refreshItem(item));
 
 /* ============ CART / SUMMARY ============ */
 const tableSel = document.getElementById('tableSel');
+const placeholderOpt = document.createElement('option');
+placeholderOpt.value = '';
+placeholderOpt.textContent = '– Tisch wählen –';
+placeholderOpt.disabled = false;
+tableSel.appendChild(placeholderOpt);
+tableSel.value = '';
 for(let i=1;i<=23;i++){
   const o = document.createElement('option');
   o.value = i; o.textContent = 'Tisch ' + i;
@@ -1936,14 +1946,16 @@ function getCartLines(){
   const lines = [];
   forEachItem(item=>{
     const st = getState(item);
-    if(st.qty > 0){
-      const up = unitPrice(item, st);
+    Object.keys(st.lines).forEach(key=>{
+      const line = st.lines[key];
+      if(line.qty <= 0) return;
+      const up = unitPriceForConfig(item, line);
       const opts = [];
-      if(item.variants) opts.push(item.variants.find(v=>v.key===st.variant).label);
-      if(item.flavorOptions) opts.push(st.flavor);
-      if(item.extras) item.extras.forEach(ex=>{ if(st.extras[ex.key]) opts.push('+ '+ex.label); });
-      lines.push({ id:item.id, name:item.name, qty:st.qty, unit:up, total:up*st.qty, opts });
-    }
+      if(item.variants) opts.push(item.variants.find(v=>v.key===line.variant).label);
+      if(item.flavorOptions) opts.push(line.flavor);
+      if(item.extras) item.extras.forEach(ex=>{ if(line.extras[ex.key]) opts.push('+ '+ex.label); });
+      lines.push({ id:item.id, key, name:item.name, qty:line.qty, unit:up, total:up*line.qty, opts });
+    });
   });
   return lines;
 }
@@ -1965,7 +1977,7 @@ function renderSummary(){
   const lines = getCartLines();
   const total = lines.reduce((s,l)=>s+l.total,0);
   document.getElementById('sumName').textContent = document.getElementById('guestName').value.trim() || '(ohne Namen)';
-  document.getElementById('sumTable').textContent = tableSel.value;
+  document.getElementById('sumTable').textContent = tableSel.value || '–';
   const sumLines = document.getElementById('sumLines');
   const emptyNote = document.getElementById('sumEmpty');
   sumLines.innerHTML = '';
@@ -1974,6 +1986,7 @@ function renderSummary(){
   lines.forEach(l=>{
     const item = allItemsById[l.id];
     const st = getState(item);
+    const line = st.lines[l.key];
     const row = document.createElement('div');
     row.className = 'sum-line';
 
@@ -1991,11 +2004,15 @@ function renderSummary(){
     const minus = document.createElement('button');
     minus.type = 'button'; minus.textContent = '–';
     const qtySpan = document.createElement('span');
-    qtySpan.textContent = st.qty;
+    qtySpan.textContent = line.qty;
     const plus = document.createElement('button');
     plus.type = 'button'; plus.textContent = '+';
-    minus.addEventListener('click', ()=>{ st.qty = Math.max(0, st.qty-1); refreshItem(item); refreshCart(); });
-    plus.addEventListener('click', ()=>{ st.qty += 1; refreshItem(item); refreshCart(); });
+    minus.addEventListener('click', ()=>{
+      line.qty = Math.max(0, line.qty-1);
+      if(line.qty===0) delete st.lines[l.key];
+      refreshItem(item); refreshCart();
+    });
+    plus.addEventListener('click', ()=>{ line.qty += 1; refreshItem(item); refreshCart(); });
     ctrl.appendChild(minus); ctrl.appendChild(qtySpan); ctrl.appendChild(plus);
     right.appendChild(ctrl);
 
@@ -2009,7 +2026,10 @@ function renderSummary(){
     rm.type = 'button';
     rm.setAttribute('aria-label', 'Entfernen');
     rm.textContent = '✕';
-    rm.addEventListener('click', ()=>{ st.qty = 0; refreshItem(item); refreshCart(); });
+    rm.addEventListener('click', ()=>{
+      delete st.lines[l.key];
+      refreshItem(item); refreshCart();
+    });
     right.appendChild(rm);
 
     row.appendChild(right);
@@ -2059,7 +2079,8 @@ function renderQuickAddResults(){
 
   matches.slice(0, 8).forEach(item=>{
     const st = getState(item);
-    const up = unitPrice(item, st);
+    const defCfg = defaultConfig(item);
+    const up = unitPriceForConfig(item, defCfg);
     const row = document.createElement('div');
     row.className = 'quickadd-row';
     row.innerHTML = `<span><span class="qa-name">${item.name}</span><span class="qa-price">${fmt(up)}</span></span>`;
@@ -2068,7 +2089,11 @@ function renderQuickAddResults(){
     btn.textContent = '+';
     btn.setAttribute('aria-label', item.name + ' hinzufügen');
     btn.addEventListener('click', ()=>{
-      st.qty += 1;
+      const key = configKey(item, defCfg);
+      if(!st.lines[key]){
+        st.lines[key] = { qty:0, extras:{...defCfg.extras}, variant:defCfg.variant, flavor:defCfg.flavor };
+      }
+      st.lines[key].qty += 1;
       refreshItem(item);
       refreshCart();
       quickAddInput.value = '';
@@ -2086,10 +2111,8 @@ function closeCart(){ overlay.classList.remove('show'); }
 function clearCartItems(){
   forEachItem(item=>{
     const st = getState(item);
-    st.qty = 0;
-    if(item.extras) item.extras.forEach(ex=>st.extras[ex.key]=false);
-    if(item.variants) st.variant = item.variants[0].key;
-    if(item.flavorOptions) st.flavor = item.flavorOptions[0];
+    st.lines = {};
+    st.current = defaultConfig(item);
 
     const card = document.getElementById('item-'+item.id);
     if(card){
